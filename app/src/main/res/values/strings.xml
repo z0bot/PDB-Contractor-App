@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ContractorApp</string>
+    <string name="select_home">Select Home</string>
+    <string name="logout">Logout</string>
+    <string name="pdb_logo">PDB Logo</string>
+    <string name="plus_button">Plus Button</string>
+    <string name="archive_drawer">Archive Drawer</string>
+    <string name="toast_test">Hello Jeff Thompas</string>
+</resources>
