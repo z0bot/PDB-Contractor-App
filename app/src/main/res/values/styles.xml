@@ -7,4 +7,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ToolBarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/colorTextGreen</item>
+        <item name="android:textColorSecondary">@color/colorTextGreen</item>
+        <item name="actionMenuTextColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/taileb</item>
+    </style>
+
 </resources>

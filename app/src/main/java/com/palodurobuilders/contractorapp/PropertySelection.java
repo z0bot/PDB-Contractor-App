@@ -2,6 +2,7 @@ package com.palodurobuilders.contractorapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
+public class PropertySelection extends AppCompatActivity
 {
     ImageButton mAddProjectButton;
     ImageButton mArchiveDrawerButton;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_property_selection);
 
         setStatusBarColor();
 
@@ -38,6 +39,15 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 testToast();
+            }
+        });
+        mAddProjectButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent propertyUtilitiesIntent = new Intent(getApplicationContext(), PropertyUtilities.class);
+                startActivity(propertyUtilitiesIntent);
             }
         });
     }

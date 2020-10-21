@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".MainActivity">
+    tools:context=".PropertySelection">
 
     <ImageView
         android:id="@+id/imageview_logo"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
         android:layout_marginTop="24dp"
         android:contentDescription="@string/pdb_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/pdb_logo_no_words"/>
+        app:srcCompat="@drawable/pdb" />
 
     <TextView
         android:id="@+id/textview_select_home"
@@ -51,7 +51,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="42dp"
-        android:background="@drawable/rounded_grey_background"
+        android:background="@drawable/rounded_grey_border_background"
         app:layout_constraintBottom_toTopOf="@+id/button_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
