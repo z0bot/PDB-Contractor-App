@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -72,7 +74,6 @@ public class PropertySelection extends AppCompatActivity
     {
         Toast toast = Toast.makeText(this, R.string.toast_test, Toast.LENGTH_LONG);
 
-
         toast.show();
     }
 
@@ -114,3 +115,11 @@ public class PropertySelection extends AppCompatActivity
                         Log.w(TAG, "Error adding document", e);
                     }
                 });*/
+
+
+/*This is for the Firebase Realtime Database we will use this for messaging*/
+/*
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");*/
