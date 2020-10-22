@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "889693000483",
+    "firebase_url": "https://pd-builders.firebaseio.com",
+    "project_id": "pd-builders",
+    "storage_bucket": "pd-builders.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889693000483:android:dfa49f93546c7ad1007296",
+        "android_client_info": {
+          "package_name": "com.palodurobuilders.contractorapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889693000483-3o85v7glrt3u79365hcttpiu0j82c56a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdx6kxO-CI6maGltXL4XPdgrNnFPtgkfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889693000483-3o85v7glrt3u79365hcttpiu0j82c56a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

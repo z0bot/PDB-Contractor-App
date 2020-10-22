@@ -1,10 +1,13 @@
 package com.palodurobuilders.contractorapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,12 +16,25 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.WriteResult;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class PropertySelection extends AppCompatActivity
 {
     ImageButton mAddProjectButton;
     ImageButton mArchiveDrawerButton;
     Button mLogoutButton;
     FrameLayout mHouseSelectionFrame;
+    private static final String TAG = "Property Selection";
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,6 +71,8 @@ public class PropertySelection extends AppCompatActivity
     private void testToast()
     {
         Toast toast = Toast.makeText(this, R.string.toast_test, Toast.LENGTH_LONG);
+
+
         toast.show();
     }
 
@@ -67,3 +85,32 @@ public class PropertySelection extends AppCompatActivity
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 }
+
+/*This is the code for adding someone with attributes first, last, title to the users collection
+* into the firebase firestore
+*
+*   */
+
+       /* FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create a new user with a first and last name
+        Map<String, Object> user = new HashMap<>();
+        user.put("first", "Jeff");
+        user.put("last", "Thompas");
+        user.put("Title", "Boss");
+
+// Add a new document with a generated ID
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });*/
