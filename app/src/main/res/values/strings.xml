@@ -20,4 +20,8 @@
     <string name="notes">Notes:</string>
     <string name="enter_email">Enter Email</string>
     <string name="add_notes">Add Notes</string>
+    <string name="login">Login</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>

@@ -9,4 +9,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBottomBarBackground">#C9CBCE</color>
     <color name="colorPlaceholderTextGreen">#CDDAC4</color>
+    <color name="colorDarkGray">#888989</color>
+    <color name="colorDarkerGray">#707070</color>
 </resources>
