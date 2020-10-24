@@ -6,4 +6,8 @@
     <string name="plus_button">Plus Button</string>
     <string name="archive_drawer">Archive Drawer</string>
     <string name="toast_test">Hello Jeff Thompas</string>
+    <string name="login">Login</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>
