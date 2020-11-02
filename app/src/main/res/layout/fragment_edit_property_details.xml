@@ -14,22 +14,21 @@
             android:id="@+id/edittext_property_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:autofillHints=""
             android:ems="10"
             android:hint="@string/property_name"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="80dp"
             android:background="@drawable/rounded_grey_border_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +50,7 @@
                 android:id="@+id/textview_add_cover_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/taileb"
                 android:text="@string/add_cover_photo"
                 android:textColor="@color/colorPlaceholderTextGreen"
@@ -69,6 +69,8 @@
             android:layout_marginTop="8dp"
             android:background="@color/colorPrimary"
             android:contentDescription="@string/star_button"
+            android:scaleX=".8"
+            android:scaleY=".8"
             android:src="@drawable/ic_star_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
@@ -78,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="32dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +96,7 @@
                 android:fontFamily="@font/taileb"
                 android:text="@string/owner"
                 android:textColor="@color/colorTextGreen"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/edittext_owner"
@@ -104,7 +106,8 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/enter_name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +131,7 @@
                 android:fontFamily="@font/taileb"
                 android:text="@string/email"
                 android:textColor="@color/colorTextGreen"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/edittext_email"
@@ -162,7 +165,7 @@
                 android:fontFamily="@font/taileb"
                 android:text="@string/notes"
                 android:textColor="@color/colorTextGreen"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/edittext_notes"
