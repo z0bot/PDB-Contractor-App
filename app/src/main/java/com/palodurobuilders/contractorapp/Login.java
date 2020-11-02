@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 public class Login extends AppCompatActivity
 {
@@ -16,7 +15,7 @@ public class Login extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mLoginButton = findViewById(R.id.loginButton);
+        mLoginButton = findViewById(R.id.button_login);
 
         mLoginButton.setOnClickListener(new View.OnClickListener()
         {

@@ -6,8 +6,23 @@
     <string name="plus_button">Plus Button</string>
     <string name="archive_drawer">Archive Drawer</string>
     <string name="toast_test">Hello Jeff Thompas</string>
+    <string name="home_details_button">home details button</string>
+    <string name="file_button">file button</string>
+    <string name="gallery_button">gallery button</string>
+    <string name="messaging_button">messaging button</string>
+    <string name="property_name">Property Name</string>
+    <string name="add_image_button">add image button</string>
+    <string name="owner">Owner:</string>
+    <string name="add_cover_photo">Add Cover Photo</string>
+    <string name="star_button">star button</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="email">Email:</string>
+    <string name="notes">Notes:</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="add_notes">Add Notes</string>
     <string name="login">Login</string>
     <string name="create_an_account">Create an account</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="palo_duro_builders_logo_with_text">Palo Duro Builders logo with text</string>
 </resources>
