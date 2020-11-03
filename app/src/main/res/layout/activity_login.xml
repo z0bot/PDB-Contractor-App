@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/pdb_text" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/edittext_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/edittext_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -46,7 +46,7 @@
         android:textColor="@color/colorTextPlaceholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_username" />
 
     <Button
         android:id="@+id/button_login"
@@ -73,5 +73,5 @@
         android:textColor="@color/colorTextGreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
 </androidx.constraintlayout.widget.ConstraintLayout>
