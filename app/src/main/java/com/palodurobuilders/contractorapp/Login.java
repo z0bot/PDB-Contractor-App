@@ -3,9 +3,12 @@ package com.palodurobuilders.contractorapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity
 {
     Button mLoginButton;
+    Button mCreateAccountButton;
     EditText mUsernameEditText;
     EditText mPasswordEditText;
 
@@ -34,6 +38,7 @@ public class Login extends AppCompatActivity
         mLoginButton = findViewById(R.id.button_login);
         mUsernameEditText = findViewById(R.id.edittext_username);
         mPasswordEditText = findViewById(R.id.edittext_password);
+        mCreateAccountButton = findViewById(R.id.button_create_account);
 
         mLoginButton.setOnClickListener(new View.OnClickListener()
         {
@@ -55,6 +60,77 @@ public class Login extends AppCompatActivity
                                 }
                             }
                         });
+            }
+        });
+
+        mCreateAccountButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                showCreateAccountDialog();
+            }
+        });
+    }
+
+    public void showCreateAccountDialog()
+    {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.popup_create_account, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText emailEdittext = (EditText)dialogView.findViewById(R.id.edittext_create_account_email);
+        final EditText passwordEdittext = (EditText)dialogView.findViewById(R.id.edittext_create_account_password);
+        final EditText reenterPasswordEdittext = (EditText)dialogView.findViewById(R.id.edittext_create_account_reenter_password);
+
+        dialogBuilder.setTitle(R.string.create_an_account);
+        dialogBuilder.setPositiveButton(R.string.create_account, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                if(!passwordEdittext.getText().toString().equals(reenterPasswordEdittext.getText().toString()))
+                {
+                    Toast.makeText(Login.this, "The passwords you provided do not match. Please try again.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    createUserProfile(emailEdittext.getText().toString(), passwordEdittext.getText().toString());
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
+    private void createUserProfile(String email, String password)
+    {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task)
+            {
+                if(task.isSuccessful())
+                {
+                    //FirebaseUser user = mAuth.getCurrentUser();
+                    Toast.makeText(Login.this, "User creation successful.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(Login.this, "User creation failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
