@@ -30,4 +30,15 @@
     <string name="create_account">Create Account</string>
     <string name="Cancel">Cancel</string>
     <string name="reenter_password_colon">Re-Enter Password:</string>
+    <string name="first_name">First Name:</string>
+    <string name="enter_first_name">Enter First Name</string>
+    <string name="last_name">Last Name:</string>
+    <string name="enter_last_name">Enter Last Name</string>
+    <string name="phone">Phone:</string>
+    <string name="enter_phone">Enter Phone</string>
+    <string name="email_icon">Email Icon</string>
+    <string name="profile_icon">Profile Icon</string>
+    <string name="lock_icon">Lock Icon</string>
+    <string name="confirm_lock_icon">Confirm Lock Icon</string>
+    <string name="phone_icon">Phone Icon</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.palodurobuilders.contractorapp;
+package com.palodurobuilders.contractorapp.fragments;
 
 import android.os.Bundle;
 
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import com.palodurobuilders.contractorapp.R;
 
 import java.util.Objects;
 

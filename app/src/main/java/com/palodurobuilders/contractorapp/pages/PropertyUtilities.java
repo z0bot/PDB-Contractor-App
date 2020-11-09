@@ -1,4 +1,4 @@
-package com.palodurobuilders.contractorapp;
+package com.palodurobuilders.contractorapp.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+
+import com.palodurobuilders.contractorapp.R;
+import com.palodurobuilders.contractorapp.fragments.EditPropertyDetails;
 
 import java.util.Objects;
 
