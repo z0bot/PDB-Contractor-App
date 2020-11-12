@@ -1,7 +1,5 @@
-package com.palodurobuilders.contractorapp;
+package com.palodurobuilders.contractorapp.pages;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,6 +24,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firestore.v1.WriteResult;
+import com.palodurobuilders.contractorapp.ProjectSelector;
+import com.palodurobuilders.contractorapp.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +58,7 @@ public class PropertySelection extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                testToast();
+                closeActivity();
             }
         });
         mAddProjectButton.setOnClickListener(new View.OnClickListener()
@@ -71,6 +70,11 @@ public class PropertySelection extends AppCompatActivity
                 startActivity(propertyUtilitiesIntent);
             }
         });
+    }
+
+    private void closeActivity()
+    {
+        this.finish();
     }
 
     public void setStartingFragment()
@@ -85,11 +89,9 @@ public class PropertySelection extends AppCompatActivity
         fragTransaction.commit();
     }
 
-    private void testToast()
+    @Override
+    public void onBackPressed()
     {
-        Toast toast = Toast.makeText(this, R.string.toast_test, Toast.LENGTH_LONG);
-
-        toast.show();
     }
 
     public void setStatusBarColor()
@@ -101,36 +103,6 @@ public class PropertySelection extends AppCompatActivity
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 }
-
-/*This is the code for adding someone with attributes first, last, title to the users collection
-* into the firebase firestore
-*
-*   */
-
-       /* FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Jeff");
-        user.put("last", "Thompas");
-        user.put("Title", "Boss");
-
-// Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });*/
-
 
 /*This is for the Firebase Realtime Database we will use this for messaging*/
 /*

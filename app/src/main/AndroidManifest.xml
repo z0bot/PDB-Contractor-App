@@ -9,19 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login">
+        <activity
+            android:name=".pages.CreateAccount"
+            android:label="Create Account"/>
+
+        <activity android:name=".pages.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".PropertyUtilities"
+            android:name=".pages.PropertyUtilities"
             android:label="Property Utilities" />
-
-        <activity android:name=".PropertySelection">
-        </activity>
+        <activity android:name=".pages.PropertySelection"></activity>
     </application>
 
 </manifest>
