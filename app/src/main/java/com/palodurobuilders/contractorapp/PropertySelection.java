@@ -3,6 +3,8 @@ package com.palodurobuilders.contractorapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -50,6 +52,7 @@ public class PropertySelection extends AppCompatActivity
         mArchiveDrawerButton = findViewById(R.id.button_archive_drawer);
         mLogoutButton = findViewById(R.id.button_logout);
         mHouseSelectionFrame = findViewById(R.id.frame_house_selection);
+        setStartingFragment();
 
         mLogoutButton.setOnClickListener(new View.OnClickListener()
         {
@@ -68,6 +71,18 @@ public class PropertySelection extends AppCompatActivity
                 startActivity(propertyUtilitiesIntent);
             }
         });
+    }
+
+    public void setStartingFragment()
+    {
+        ProjectSelector projectSelector = new ProjectSelector();
+        //Allows us to switch out fragments
+        FragmentManager fragManager = getSupportFragmentManager();
+        //Opens up an instance of switching out a ragment
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+        //switching out the frame on the page with the init fragment
+        fragTransaction.replace(R.id.frame_house_selection, projectSelector);
+        fragTransaction.commit();
     }
 
     private void testToast()

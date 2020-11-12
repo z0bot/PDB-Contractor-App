@@ -25,4 +25,9 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="palo_duro_builders_logo_with_text">Palo Duro Builders logo with text</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textview">TextView</string>
+    <string name="image_for_a_house_to_display_on_project_selector">Image for a house to display on project selector</string>
+    <string name="_2020_biden_st">2020 Biden St.</string>
 </resources>
