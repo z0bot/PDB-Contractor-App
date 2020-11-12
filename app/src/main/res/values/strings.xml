@@ -41,4 +41,6 @@
     <string name="lock_icon">Lock Icon</string>
     <string name="confirm_lock_icon">Confirm Lock Icon</string>
     <string name="phone_icon">Phone Icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
