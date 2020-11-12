@@ -13,22 +13,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.WriteResult;
-import com.palodurobuilders.contractorapp.ProjectSelector;
+import com.palodurobuilders.contractorapp.fragments.ProjectSelector;
 import com.palodurobuilders.contractorapp.R;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PropertySelection extends AppCompatActivity
 {

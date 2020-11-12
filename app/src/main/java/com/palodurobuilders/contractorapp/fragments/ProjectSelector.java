@@ -1,15 +1,18 @@
-package com.palodurobuilders.contractorapp;
+package com.palodurobuilders.contractorapp.fragments;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.palodurobuilders.contractorapp.adapters.ProjectSelectorViewAdaptor;
+import com.palodurobuilders.contractorapp.R;
+import com.palodurobuilders.contractorapp.utilities.TestPropertyUtils;
 
 public class ProjectSelector extends Fragment
 {

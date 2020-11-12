@@ -1,4 +1,4 @@
-package com.palodurobuilders.contractorapp;
+package com.palodurobuilders.contractorapp.models;
 
 public class DummyHouse
 {

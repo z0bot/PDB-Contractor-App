@@ -1,4 +1,4 @@
-package com.palodurobuilders.contractorapp;
+package com.palodurobuilders.contractorapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.palodurobuilders.contractorapp.models.DummyHouse;
+import com.palodurobuilders.contractorapp.R;
 
 import java.util.List;
 

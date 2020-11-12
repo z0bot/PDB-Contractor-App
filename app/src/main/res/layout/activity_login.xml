@@ -26,7 +26,7 @@
         android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/taileb"
-        android:hint="@string/username"
+        android:hint="@string/email_string"
         android:inputType="textPersonName"
         android:textColor="@color/colorTextPlaceholder"
         app:layout_constraintEnd_toEndOf="parent"
