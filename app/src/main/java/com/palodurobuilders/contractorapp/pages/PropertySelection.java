@@ -24,6 +24,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firestore.v1.WriteResult;
+import com.palodurobuilders.contractorapp.ProjectSelector;
+import com.palodurobuilders.contractorapp.R;
 
 import java.util.HashMap;
 import java.util.Map;
