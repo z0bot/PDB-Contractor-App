@@ -16,8 +16,11 @@ tools:context=".fragments.DisplayPropertyDetails">
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
+        android:fontFamily="@font/taileb"
+        android:gravity="center_horizontal"
         android:hint="@string/property_name"
         android:text="1940 Franklin St."
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +69,7 @@ tools:context=".fragments.DisplayPropertyDetails">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,10 +91,7 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:id="@+id/textview_owner_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/enter_name"
+            android:layout_weight="3"
             android:text="John Wick"
             android:textSize="18sp" />
     </LinearLayout>
@@ -123,10 +123,9 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:id="@+id/textview_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/enter_email"
-            android:importantForAutofill="no" />
+            android:text="@string/email"
+            android:textSize="18sp"
+            android:layout_weight="3"/>
 
     </LinearLayout>
 
@@ -142,7 +141,7 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
-            android:id="@+id/textview_notes"
+            android:id="@+id/textview_notes_label"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -152,15 +151,13 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:textColor="@color/colorTextGreen"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edittext_notes"
+        <TextView
+            android:id="@+id/textview_notes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/add_notes"
-            android:inputType="textPersonName"
-            android:autofillHints="" />
+            android:textSize="18sp"
+            android:text="Notes"
+            android:layout_weight="3"/>
 
     </LinearLayout>
 
