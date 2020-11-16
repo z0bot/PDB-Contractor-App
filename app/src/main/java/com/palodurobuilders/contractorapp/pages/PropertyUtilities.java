@@ -1,20 +1,25 @@
 package com.palodurobuilders.contractorapp.pages;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.fragments.EditPropertyDetails;
+import com.palodurobuilders.contractorapp.fragments.Messaging;
 
 import java.util.Objects;
 
@@ -30,10 +35,8 @@ public class PropertyUtilities extends AppCompatActivity
     }
 
     Toolbar mToolbar;
-    ImageButton mMessagingButton;
-    ImageButton mPhotosButton;
-    ImageButton mFilesButton;
-    ImageButton mPropertyDetailsButton;
+
+    BottomNavigationView mBottomNav;
 
     propertyUtilityFragmentType _utilityType;
 
@@ -43,16 +46,42 @@ public class PropertyUtilities extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_utilities);
 
-        mMessagingButton = findViewById(R.id.button_messaging);
-        mPhotosButton = findViewById(R.id.button_gallery);
-        mFilesButton = findViewById(R.id.button_files);
-        mPropertyDetailsButton = findViewById(R.id.button_home_details);
+        mBottomNav = findViewById(R.id.bottomnav_property_utility);
 
         _utilityType = getPropertyUtilityFragmentType();
 
         setStatusBarColor();
         setTitleBar();
         setFragment();
+
+        mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch(item.getItemId())
+                {
+                    case R.id.messaging:
+                        _utilityType = propertyUtilityFragmentType.Messaging;
+                        setFragment();
+                        return true;
+                    case R.id.gallery:
+                        _utilityType = propertyUtilityFragmentType.Photos;
+                        setFragment();
+                        return true;
+                    case R.id.documents:
+                        _utilityType = propertyUtilityFragmentType.Files;
+                        setFragment();
+                        return true;
+                    case R.id.property_info:
+                        _utilityType = propertyUtilityFragmentType.PropertyDetails;
+                        setFragment();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void setStatusBarColor()
@@ -83,7 +112,8 @@ public class PropertyUtilities extends AppCompatActivity
     {
         if(_utilityType.equals(propertyUtilityFragmentType.Messaging))
         {
-            //start messaging fragment
+            Fragment messagingFragment = new Messaging();
+            updateFragment(messagingFragment);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {

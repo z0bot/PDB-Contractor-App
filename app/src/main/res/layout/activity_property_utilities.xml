@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorFragmentBackground"
     tools:context=".pages.PropertyUtilities">
 
     <include
@@ -15,65 +16,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/bottom_tray_background"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageButton
-            android:id="@+id/button_messaging"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/colorBottomBarBackground"
-            android:contentDescription="@string/messaging_button"
-            app:srcCompat="@drawable/ic_message_circle" />
-
-        <ImageButton
-            android:id="@+id/button_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/colorBottomBarBackground"
-            android:contentDescription="@string/gallery_button"
-            app:srcCompat="@drawable/ic_gallery" />
-
-        <ImageButton
-            android:id="@+id/button_files"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/colorBottomBarBackground"
-            android:contentDescription="@string/file_button"
-            app:srcCompat="@drawable/ic_file" />
-
-        <ImageButton
-            android:id="@+id/button_home_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/colorBottomBarBackground"
-            android:contentDescription="@string/home_details_button"
-            app:srcCompat="@drawable/ic_home_designer" />
-    </LinearLayout>
-
     <FrameLayout
         android:id="@+id/frame_property_utility"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:background="@color/colorFragmentBackground"
+        app:layout_constraintBottom_toTopOf="@+id/bottomnav_property_utility"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
     </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnav_property_utility"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_tray_background"
+        android:elevation="0dp"
+        app:elevation="0dp"
+        app:itemIconSize="32dp"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/botton_navigation_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>
