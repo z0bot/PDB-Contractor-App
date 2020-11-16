@@ -1,6 +1,8 @@
 package com.palodurobuilders.contractorapp.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,9 +13,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.palodurobuilders.contractorapp.fragments.ProjectSelector;
 import com.palodurobuilders.contractorapp.R;
 
 public class PropertySelection extends AppCompatActivity
@@ -37,6 +39,7 @@ public class PropertySelection extends AppCompatActivity
         mArchiveDrawerButton = findViewById(R.id.button_archive_drawer);
         mLogoutButton = findViewById(R.id.button_logout);
         mHouseSelectionFrame = findViewById(R.id.frame_house_selection);
+        setStartingFragment();
 
         mLogoutButton.setOnClickListener(new View.OnClickListener()
         {
@@ -60,6 +63,18 @@ public class PropertySelection extends AppCompatActivity
     private void closeActivity()
     {
         this.finish();
+    }
+
+    public void setStartingFragment()
+    {
+        ProjectSelector projectSelector = new ProjectSelector();
+        //Allows us to switch out fragments
+        FragmentManager fragManager = getSupportFragmentManager();
+        //Opens up an instance of switching out a ragment
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+        //switching out the frame on the page with the init fragment
+        fragTransaction.replace(R.id.frame_house_selection, projectSelector);
+        fragTransaction.commit();
     }
 
     @Override

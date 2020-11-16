@@ -41,6 +41,11 @@
     <string name="lock_icon">Lock Icon</string>
     <string name="confirm_lock_icon">Confirm Lock Icon</string>
     <string name="phone_icon">Phone Icon</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textview">TextView</string>
+    <string name="image_for_a_house_to_display_on_project_selector">Image for a house to display on project selector</string>
+    <string name="_2020_biden_st">2020 Biden St.</string>
+    <string name="email_string">Email</string>
+    <string name="camera_button">camera button</string>
+    <string name="send_button">send button</string>
+    <string name="type_message">Type message</string>
 </resources>
