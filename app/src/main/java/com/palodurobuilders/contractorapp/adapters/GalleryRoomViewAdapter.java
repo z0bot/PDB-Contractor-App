@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.palodurobuilders.contractorapp.R;
@@ -22,7 +23,7 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
     private List<GalleryRoom> _RoomList;
 
     // because we're loading into a fragment, need context
-    GalleryRoomViewAdapter(Context context, List<GalleryRoom> galleryRoomList)
+    public GalleryRoomViewAdapter(Context context, List<GalleryRoom> galleryRoomList)
     {
         this._RoomList = galleryRoomList;
     }
@@ -45,11 +46,29 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
         viewHolder.GalleryRoomTitle.setText(galleryRoom.getRoomTitle());
 
         // create a layout manager to assign a layout to the recyclerview
+
+        //the assigned layout will be as linearlayout with vert.
+        LinearLayoutManager layoutManager = new LinearLayoutManager(viewHolder.GalleryImageRecyclerView.getContext(), LinearLayoutManager.HORIZONTAL,false);
+
+        //Since this is nested, need to define how many child items should be pre-fetched
+        //when the child recyclerView is nested inside the parent recyclerView
+        layoutManager.setInitialPrefetchItemCount(galleryRoom.getGalleryImageList().size());
+
+        //create instance of child item view adapter
+        //and set its adapter, layout manager and recyclerviewPool
+        GalleryImageViewAdaptor galleryImageViewAdaptor = new GalleryImageViewAdaptor(galleryRoom.getGalleryImageList());
+
+        viewHolder.GalleryImageRecyclerView.setLayoutManager(layoutManager);
+        viewHolder.GalleryImageRecyclerView.setAdapter(galleryImageViewAdaptor);
+        viewHolder.GalleryImageRecyclerView.setRecycledViewPool(viewPool);
+
     }
+    @Override
     public int getItemCount()
     {
         return _RoomList.size();
     }
+
     public static class GalleryRoomViewHolder extends RecyclerView.ViewHolder
     {
         private TextView GalleryRoomTitle;
