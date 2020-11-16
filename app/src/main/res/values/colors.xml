@@ -7,7 +7,8 @@
     <color name="colorTextPlaceholder">#59813F</color>
     <color name="colorLightGrey">#B8B8B8</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorBottomBarBackground">#C9CBCE</color>
+    <color name="colorBottomBarBackground">#F6F6F6</color>
+    <color name="colorFragmentBackground">#ECEEF1</color>
     <color name="colorPlaceholderTextGreen">#CDDAC4</color>
     <color name="colorDarkGray">#888989</color>
     <color name="colorDarkerGray">#707070</color>

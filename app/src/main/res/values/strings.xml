@@ -46,4 +46,7 @@
     <string name="image_for_a_house_to_display_on_project_selector">Image for a house to display on project selector</string>
     <string name="_2020_biden_st">2020 Biden St.</string>
     <string name="email_string">Email</string>
+    <string name="camera_button">camera button</string>
+    <string name="send_button">send button</string>
+    <string name="type_message">Type message</string>
 </resources>
