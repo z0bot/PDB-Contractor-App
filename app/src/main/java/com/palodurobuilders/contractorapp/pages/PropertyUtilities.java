@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.fragments.EditPropertyDetails;
 import com.palodurobuilders.contractorapp.fragments.Messaging;
+import com.palodurobuilders.contractorapp.fragments.ProgressGallery;
 
 import java.util.Objects;
 
@@ -118,6 +119,8 @@ public class PropertyUtilities extends AppCompatActivity
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {
             //start photos fragment
+            Fragment progressGalleryFrag = new ProgressGallery();
+            updateFragment(progressGalleryFrag);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
         {

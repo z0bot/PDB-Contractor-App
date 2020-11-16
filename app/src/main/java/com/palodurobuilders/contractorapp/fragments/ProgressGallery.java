@@ -65,6 +65,12 @@ public class ProgressGallery extends Fragment
         GalleryRoom galleryRoom4 = new GalleryRoom("Kitchen", GalleryImageList());
         galleryRoomList.add(galleryRoom4);
 
+        GalleryRoom galleryRoom5 = new GalleryRoom("Spare Bedroom", GalleryImageList());
+        galleryRoomList.add(galleryRoom5);
+
+        GalleryRoom galleryRoom6 = new GalleryRoom("Storage", GalleryImageList());
+        galleryRoomList.add(galleryRoom6);
+
         return galleryRoomList;
     }
 
