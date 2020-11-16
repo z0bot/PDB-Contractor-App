@@ -48,4 +48,6 @@
     <string name="camera_button">camera button</string>
     <string name="send_button">send button</string>
     <string name="type_message">Type message</string>
+    <string name="property_description">Property description</string>
+    <string name="create_new_property_button">Create new property button</string>
 </resources>
