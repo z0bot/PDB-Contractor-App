@@ -36,7 +36,6 @@ public class Message
     private String date;
     public String getDate()
     {
-        date = date.replace('T', ' ');
         return date;
     }
     public void setDate(String value)
@@ -61,11 +60,11 @@ public class Message
 
     //SenderID Property
     private String senderID;
-    public String getSenderId()
+    public String getSenderID()
     {
         return senderID;
     }
-    public void setSenderId(String value)
+    public void setSenderID(String value)
     {
         senderID = value;
     }

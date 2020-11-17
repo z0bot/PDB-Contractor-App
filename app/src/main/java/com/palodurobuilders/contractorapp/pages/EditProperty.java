@@ -1,18 +1,20 @@
-package com.palodurobuilders.contractorapp.fragments;
+package com.palodurobuilders.contractorapp.pages;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,19 +37,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import static android.app.Activity.RESULT_OK;
-import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
-
-public class EditPropertyDetails extends Fragment
+public class EditProperty extends AppCompatActivity
 {
     ImageButton mStarButton;
     ImageButton mChooseImageButton;
     ImageView mThumbnail;
     FloatingActionButton mFabCreateProperty;
-    EditText mAddressEntry;
+    EditText mPropertyNameEntry;
     EditText mOwnerEntry;
     EditText mEmailEntry;
-    EditText mNotesEntry;
+    EditText mAddressEntry;
+    Toolbar mToolbar;
 
     boolean _starToggle = false;
     Uri _imagePath;
@@ -59,16 +58,15 @@ public class EditPropertyDetails extends Fragment
     StorageReference _storageReference;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_edit_property);
 
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
-    {
-        findViews(view);
+        findViews();
         setListeners();
+        setStatusBarColor();
+        setTitleBar();
 
         _storage = FirebaseStorage.getInstance();
         _storageReference = _storage.getReference();
@@ -104,27 +102,22 @@ public class EditPropertyDetails extends Fragment
         });
     }
 
-    private void findViews(View view)
+    private void findViews()
     {
-        mStarButton = view.findViewById(R.id.button_star);
-        mChooseImageButton = view.findViewById(R.id.button_add_cover_image);
-        mThumbnail = view.findViewById(R.id.image_property_thumbnail);
-        mFabCreateProperty = view.findViewById(R.id.fab_create_new_property);
-        mAddressEntry = view.findViewById(R.id.edittext_property_name);
-        mOwnerEntry = view.findViewById(R.id.edittext_owner);
-        mEmailEntry = view.findViewById(R.id.edittext_email);
-        mNotesEntry = view.findViewById(R.id.edittext_notes);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        return inflater.inflate(R.layout.fragment_edit_property_details, container, false);
+        mStarButton = findViewById(R.id.button_star);
+        mChooseImageButton = findViewById(R.id.button_add_cover_image);
+        mThumbnail = findViewById(R.id.image_property_thumbnail);
+        mFabCreateProperty = findViewById(R.id.fab_create_new_property);
+        mPropertyNameEntry = findViewById(R.id.edittext_property_name);
+        mOwnerEntry = findViewById(R.id.edittext_owner);
+        mEmailEntry = findViewById(R.id.edittext_email);
+        mAddressEntry = findViewById(R.id.edittext_address);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK)
         {
             if(requestCode == 1)
@@ -137,13 +130,17 @@ public class EditPropertyDetails extends Fragment
 
     private void beginPropertyUpload()
     {
-        if(mAddressEntry.getText().toString().isEmpty() || mEmailEntry.getText().toString().isEmpty() || mOwnerEntry.getText().toString().isEmpty())
+        if(mPropertyNameEntry.getText().toString().isEmpty() || mOwnerEntry.getText().toString().isEmpty())
         {
-            Toast.makeText(getContext(), "Please enter a property name, email, and owner", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a property name, and owner", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(_imagePath == null)
+        {
+            _imagePath = Uri.parse("android.resource://com.palodurobuilders.contractorapp/drawable/house_placeholder");
+        }
 
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
 
@@ -174,7 +171,7 @@ public class EditPropertyDetails extends Fragment
                     public void onFailure(@NonNull Exception e)
                     {
                         progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Error creating property", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error creating property", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -183,19 +180,27 @@ public class EditPropertyDetails extends Fragment
 
     private void uploadToFirestore()
     {
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
 
         //create property object
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> property = new HashMap<>();
-        property.put("address", mAddressEntry.getText().toString());
-        property.put("builderEmail", mEmailEntry.getText().toString());
+        property.put("name", mPropertyNameEntry.getText().toString());
         property.put("imageURL", _firebaseImageUrl);
-        if(!mNotesEntry.getText().toString().isEmpty())
+        property.put("starred", _starToggle);
+        if(!mOwnerEntry.getText().toString().isEmpty())
         {
-            property.put("notes", mNotesEntry.getText().toString());
+            property.put("owner", mOwnerEntry.getText().toString());
+        }
+        if(!mEmailEntry.getText().toString().isEmpty())
+        {
+            property.put("email", mEmailEntry.getText().toString());
+        }
+        if(!mAddressEntry.getText().toString().isEmpty())
+        {
+            property.put("address", mAddressEntry.getText().toString());
         }
 
         db.collection("Projects")
@@ -206,7 +211,8 @@ public class EditPropertyDetails extends Fragment
                     public void onSuccess(DocumentReference documentReference)
                     {
                         progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Property created", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Property created", Toast.LENGTH_SHORT).show();
+                        pushToPropertyUtilities();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -215,9 +221,16 @@ public class EditPropertyDetails extends Fragment
                     public void onFailure(@NonNull Exception e)
                     {
                         progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Error creating property", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error creating property", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void pushToPropertyUtilities()
+    {
+        Intent propertyUtilitiesIntent = new Intent(this, PropertyUtilities.class);
+        startActivity(propertyUtilitiesIntent);
+        finish();
     }
 
     private void setThumbnail()
@@ -225,14 +238,14 @@ public class EditPropertyDetails extends Fragment
         InputStream inputStream;
         try
         {
-            inputStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(_imagePath);
+            inputStream = getContentResolver().openInputStream(_imagePath);
             _bitmap = BitmapFactory.decodeStream(inputStream);
             mThumbnail.setImageBitmap(_bitmap);
             mThumbnail.setVisibility(ImageView.VISIBLE);
         }
         catch(FileNotFoundException e)
         {
-            Toast.makeText(getActivity(), "An error occurred.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "An error occurred.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -240,13 +253,37 @@ public class EditPropertyDetails extends Fragment
     {
         if(_starToggle)
         {
-            mStarButton.setImageDrawable(getDrawable(Objects.requireNonNull(getContext()), R.drawable.ic_star_gold));
+            mStarButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_gray));
             _starToggle = false;
         }
         else
         {
-            mStarButton.setImageDrawable(getDrawable(Objects.requireNonNull(getContext()), R.drawable.ic_star_gray));
+            mStarButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_gold));
             _starToggle = true;
         }
+    }
+
+    public void setStatusBarColor()
+    {
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#FFFFFF"));
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        onBackPressed();
+        return true;
+    }
+
+    private void setTitleBar()
+    {
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }

@@ -58,7 +58,7 @@ public class Messaging extends Fragment
     }
 
     //Constants
-    public static final String MESSAGES_CHILD = "messaging/projects/MessagingTest";
+    public static final String MESSAGES_CHILD = "messaging/projects/CrossTest";
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -72,8 +72,6 @@ public class Messaging extends Fragment
     FirebaseRecyclerAdapter<Message, MessageViewHolder> mFirebaseAdapter;
     ImageButton mSendButton;
     EditText mMessageEntry;
-
-    String previousMessageSenderID = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -102,7 +100,7 @@ public class Messaging extends Fragment
             @Override
             public void onClick(View view)
             {
-                Message message = new Message(mMessageEntry.getText().toString(), mUsername, mUser.getUid());
+                Message message = new Message(mMessageEntry.getText().toString(), mUsername, mUser.getEmail());
                 mFirebaseReference.child(MESSAGES_CHILD).push().setValue(message);
                 mMessageEntry.setText("");
             }
@@ -155,7 +153,7 @@ public class Messaging extends Fragment
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 if(message.getText() != null)
                 {
-                    if(message.getSenderId().equals(mUser.getUid()))
+                    if(message.getSenderID().equals(mUser.getEmail()))
                     {
                         holder.mNameDateLinear.setVisibility(LinearLayout.GONE);
                         holder.incomingMessageConstraint.setVisibility(ConstraintLayout.INVISIBLE);
@@ -168,13 +166,12 @@ public class Messaging extends Fragment
                         holder.mNameDateLinear.setVisibility(LinearLayout.VISIBLE);
                         holder.mNameText.setVisibility(TextView.VISIBLE);
                         holder.mNameText.setText(message.getSender());
-                        holder.mTimeText.setText(message.getDate());
+                        holder.mTimeText.setText(message.getDate().replace('T', ' '));
                         //set correct background for message
                         holder.outgoingMessageConstraint.setVisibility(ConstraintLayout.INVISIBLE);
                         holder.incomingMessageConstraint.setVisibility(ConstraintLayout.VISIBLE);
                         holder.incomingMessageText.setText(message.getText());
                     }
-                    previousMessageSenderID = message.getSenderId();
                 }
             }
 

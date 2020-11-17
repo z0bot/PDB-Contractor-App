@@ -54,8 +54,8 @@ public class PropertySelection extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Intent propertyUtilitiesIntent = new Intent(getApplicationContext(), PropertyUtilities.class);
-                startActivity(propertyUtilitiesIntent);
+                Intent addPropertyIntent = new Intent(getApplicationContext(), EditProperty.class);
+                startActivity(addPropertyIntent);
             }
         });
     }

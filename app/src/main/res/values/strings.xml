@@ -50,4 +50,13 @@
     <string name="type_message">Type message</string>
     <string name="property_description">Property description</string>
     <string name="create_new_property_button">Create new property button</string>
+    <string name="address">Address:</string>
+    <string name="enter_address">Enter address</string>
+    <string name="property_image">Property Image</string>
+    <string name="title_activity_add_property">AddProperty</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

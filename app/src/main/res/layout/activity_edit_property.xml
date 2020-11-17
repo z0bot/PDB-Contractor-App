@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".fragments.DisplayPropertyDetails">
-
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".pages.EditProperty">
 
-    <TextView
-        android:id="@+id/textview_property_name"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edittext_property_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:autofillHints=""
         android:ems="10"
-        android:fontFamily="@font/taileb"
-        android:gravity="center_horizontal"
         android:hint="@string/property_name"
-        android:textSize="30sp"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -34,17 +37,43 @@ tools:context=".fragments.DisplayPropertyDetails">
         android:layout_marginEnd="80dp"
         android:background="@drawable/rounded_grey_border_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_property_name">
+        app:layout_constraintTop_toBottomOf="@+id/edittext_property_name">
+
+        <ImageButton
+            android:id="@+id/button_add_cover_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@color/colorPrimary"
+            android:contentDescription="@string/add_image_button"
+            android:src="@drawable/ic_light_green_plus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textview_add_cover_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/taileb"
+            android:text="@string/add_cover_photo"
+            android:textColor="@color/colorPlaceholderTextGreen"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_add_cover_image" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/image_property_thumbnail"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/property_image"
+            android:layout_height="0dp"
+            android:contentDescription="@string/property_description"
             android:scaleType="centerCrop"
             android:src="@drawable/house_placeholder"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +99,7 @@ tools:context=".fragments.DisplayPropertyDetails">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,11 +117,15 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:textColor="@color/colorTextGreen"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textview_owner_name"
+        <EditText
+            android:id="@+id/edittext_owner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/enter_name"
+            android:inputType="textPersonName"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -109,7 +142,7 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:id="@+id/textview_email_label"
+            android:id="@+id/textview_email"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -119,12 +152,15 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:textColor="@color/colorTextGreen"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textview_email"
+        <EditText
+            android:id="@+id/edittext_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:textSize="18sp" />
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/enter_email"
+            android:inputType="textPersonName|textEmailAddress"
+            android:importantForAutofill="no" />
 
     </LinearLayout>
 
@@ -140,7 +176,7 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
-            android:id="@+id/textview_address_label"
+            android:id="@+id/textview_address"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -150,15 +186,29 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:textColor="@color/colorTextGreen"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textview_address"
+        <EditText
+            android:id="@+id/edittext_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:textSize="18sp" />
+            android:layout_weight="1"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/enter_address"
+            android:inputType="textPersonName" />
 
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_new_property"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/create_new_property_button"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
