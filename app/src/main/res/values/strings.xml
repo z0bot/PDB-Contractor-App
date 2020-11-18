@@ -41,7 +41,6 @@
     <string name="lock_icon">Lock Icon</string>
     <string name="confirm_lock_icon">Confirm Lock Icon</string>
     <string name="phone_icon">Phone Icon</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textview">TextView</string>
     <string name="image_for_a_house_to_display_on_project_selector">Image for a house to display on project selector</string>
     <string name="_2020_biden_st">2020 Biden St.</string>
@@ -49,4 +48,15 @@
     <string name="camera_button">camera button</string>
     <string name="send_button">send button</string>
     <string name="type_message">Type message</string>
+    <string name="property_description">Property description</string>
+    <string name="create_new_property_button">Create new property button</string>
+    <string name="address">Address:</string>
+    <string name="enter_address">Enter address</string>
+    <string name="property_image">Property Image</string>
+    <string name="title_activity_add_property">AddProperty</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
