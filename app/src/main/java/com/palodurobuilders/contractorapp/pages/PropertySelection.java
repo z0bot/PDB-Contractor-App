@@ -39,7 +39,7 @@ public class PropertySelection extends AppCompatActivity
         mArchiveDrawerButton = findViewById(R.id.button_archive_drawer);
         mLogoutButton = findViewById(R.id.button_logout);
         mHouseSelectionFrame = findViewById(R.id.frame_house_selection);
-        setStartingFragment();
+        //setStartingFragment();
 
         mLogoutButton.setOnClickListener(new View.OnClickListener()
         {
@@ -70,7 +70,7 @@ public class PropertySelection extends AppCompatActivity
         ProjectSelector projectSelector = new ProjectSelector();
         //Allows us to switch out fragments
         FragmentManager fragManager = getSupportFragmentManager();
-        //Opens up an instance of switching out a ragment
+        //Opens up an instance of switching out a fragment
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         //switching out the frame on the page with the init fragment
         fragTransaction.replace(R.id.frame_house_selection, projectSelector);
@@ -82,6 +82,13 @@ public class PropertySelection extends AppCompatActivity
     {
     }
 
+    @Override
+    public void onResume()
+    {
+        setStartingFragment();
+        super.onResume();
+    }
+
     public void setStatusBarColor()
     {
         Window window = getWindow();
@@ -91,10 +98,3 @@ public class PropertySelection extends AppCompatActivity
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 }
-
-/*This is for the Firebase Realtime Database we will use this for messaging*/
-/*
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");*/

@@ -14,24 +14,57 @@ public class Property
     }
 
     //Builder email property
-    private String builderEmail;
-    public String getBuilderEmail()
+    private String email;
+    public String getEmail()
     {
-        return builderEmail;
+        return email;
     }
-    public void setBuilderEmail(String value)
+    public void setEmail(String value)
     {
-        builderEmail = value;
+        email = value;
     }
 
     //Image URL property
-    private String imageUrl;
-    public String getImageUrl()
+    private String imageURL;
+    public String getImageURL()
     {
-        return imageUrl;
+        return imageURL;
     }
-    public void setImageUrl(String value)
+    public void setImageURL(String value)
     {
-        imageUrl = value;
+        imageURL = value;
+    }
+
+    //Name property
+    private String name;
+    public String getName()
+    {
+        return name;
+    }
+    public void setName(String value)
+    {
+        name = value;
+    }
+
+    //starred property
+    private boolean starred;
+    public boolean getStarred()
+    {
+        return starred;
+    }
+    public void setStarred(boolean value)
+    {
+        starred = value;
+    }
+
+    //Owner property
+    private String owner;
+    public String getOwner()
+    {
+        return owner;
+    }
+    public void setOwner(String value)
+    {
+        owner = value;
     }
 }
