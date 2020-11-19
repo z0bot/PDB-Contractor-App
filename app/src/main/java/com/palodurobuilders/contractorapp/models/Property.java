@@ -1,8 +1,32 @@
 package com.palodurobuilders.contractorapp.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "property")
 public class Property
 {
+    public static final String PROPERTY_NAME = "property_name";
+
+    public Property()
+    {
+
+    }
+
+    public Property(@NonNull String propertyName, @NonNull String propertyOwner, String propertyAddress, String ownerEmail, String propertyImageURL, boolean propertyStarred)
+    {
+        name = propertyName;
+        owner = propertyOwner;
+        address = propertyAddress;
+        imageURL = propertyImageURL;
+        email = ownerEmail;
+        starred = propertyStarred;
+    }
+
     //Address property
+    @ColumnInfo(name = "address")
     private String address;
     public String getAddress()
     {
@@ -14,24 +38,64 @@ public class Property
     }
 
     //Builder email property
-    private String builderEmail;
-    public String getBuilderEmail()
+    @ColumnInfo(name = "email")
+    private String email;
+    public String getEmail()
     {
-        return builderEmail;
+        return email;
     }
-    public void setBuilderEmail(String value)
+    public void setEmail(String value)
     {
-        builderEmail = value;
+        email = value;
     }
 
     //Image URL property
-    private String imageUrl;
-    public String getImageUrl()
+    @ColumnInfo(name = "imageURL")
+    private String imageURL;
+    public String getImageURL()
     {
-        return imageUrl;
+        return imageURL;
     }
-    public void setImageUrl(String value)
+    public void setImageURL(String value)
     {
-        imageUrl = value;
+        imageURL = value;
+    }
+
+    //Name property
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "name")
+    private String name;
+    public String getName()
+    {
+        return name;
+    }
+    public void setName(String value)
+    {
+        name = value;
+    }
+
+    //starred property
+    @ColumnInfo(name = "starred")
+    private boolean starred;
+    public boolean getStarred()
+    {
+        return starred;
+    }
+    public void setStarred(boolean value)
+    {
+        starred = value;
+    }
+
+    //Owner property
+    @ColumnInfo(name = "owner")
+    private String owner;
+    public String getOwner()
+    {
+        return owner;
+    }
+    public void setOwner(String value)
+    {
+        owner = value;
     }
 }

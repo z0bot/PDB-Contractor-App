@@ -29,6 +29,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.palodurobuilders.contractorapp.R;
+import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
+import com.palodurobuilders.contractorapp.models.Property;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -53,6 +55,7 @@ public class EditProperty extends AppCompatActivity
     Uri _imagePath;
     Bitmap _bitmap;
     String _firebaseImageUrl;
+    Property _property;
 
     FirebaseStorage _storage;
     StorageReference _storageReference;
@@ -212,6 +215,7 @@ public class EditProperty extends AppCompatActivity
                     {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Property created", Toast.LENGTH_SHORT).show();
+                        _property = new Property(mPropertyNameEntry.getText().toString(), mOwnerEntry.getText().toString(), mAddressEntry.getText().toString(), mEmailEntry.getText().toString(), _firebaseImageUrl, _starToggle);
                         pushToPropertyUtilities();
                     }
                 })
@@ -228,8 +232,18 @@ public class EditProperty extends AppCompatActivity
 
     private void pushToPropertyUtilities()
     {
-        Intent propertyUtilitiesIntent = new Intent(this, PropertyUtilities.class);
-        startActivity(propertyUtilitiesIntent);
+        PropertyDatabase propertyDatabase = PropertyDatabase.getInstance(this);
+        try
+        {
+            propertyDatabase.propertyDao().insertProperty(_property);
+        }
+        catch(Exception e)
+        {
+            propertyDatabase.propertyDao().updateProperty(_property);
+        }
+        Intent propertyUtilityIntent = new Intent(this, PropertyUtilities.class);
+        propertyUtilityIntent.putExtra(Property.PROPERTY_NAME, _property.getName());
+        startActivity(propertyUtilityIntent);
         finish();
     }
 

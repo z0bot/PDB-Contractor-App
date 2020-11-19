@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.fragments.DisplayPropertyDetails;
 import com.palodurobuilders.contractorapp.fragments.Messaging;
+import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.fragments.ProgressGallery;
 
 import java.util.Objects;
@@ -40,11 +41,15 @@ public class PropertyUtilities extends AppCompatActivity
 
     propertyUtilityFragmentType _utilityType;
 
+    String _selectedPropertyName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_utilities);
+
+        _selectedPropertyName = getIntent().getStringExtra(Property.PROPERTY_NAME);
 
         mBottomNav = findViewById(R.id.bottomnav_property_utility);
 
@@ -129,7 +134,10 @@ public class PropertyUtilities extends AppCompatActivity
         else if(_utilityType.equals(propertyUtilityFragmentType.PropertyDetails))
         {
             //start property details fragment
+            Bundle args = new Bundle();
             Fragment displayDetailsFragment = new DisplayPropertyDetails();
+            args.putString(Property.PROPERTY_NAME, _selectedPropertyName);
+            displayDetailsFragment.setArguments(args);
             updateFragment(displayDetailsFragment);
         }
     }
