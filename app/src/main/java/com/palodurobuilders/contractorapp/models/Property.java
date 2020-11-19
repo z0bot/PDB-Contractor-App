@@ -10,6 +10,21 @@ public class Property
 {
     public static final String PROPERTY_NAME = "property_name";
 
+    public Property()
+    {
+
+    }
+
+    public Property(@NonNull String propertyName, @NonNull String propertyOwner, String propertyAddress, String ownerEmail, String propertyImageURL, boolean propertyStarred)
+    {
+        name = propertyName;
+        owner = propertyOwner;
+        address = propertyAddress;
+        imageURL = propertyImageURL;
+        email = ownerEmail;
+        starred = propertyStarred;
+    }
+
     //Address property
     @ColumnInfo(name = "address")
     private String address;

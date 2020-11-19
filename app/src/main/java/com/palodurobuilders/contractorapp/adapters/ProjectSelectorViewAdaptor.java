@@ -39,7 +39,8 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
         public TextView mHomeName;
         public ImageView mHomeImage;
 
-        public MyViewHolder(View v) {
+        public MyViewHolder(View v)
+        {
             super(v);
             mView = v;
             mHomeName = v.findViewById(R.id.textview_house_address);
