@@ -28,10 +28,11 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
 {
     private List<Property> _dataList;
     private LayoutInflater _inflator;
+    private ItemClickListener _clickListener;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         // each data item is just a string in this case
         public View mView;
@@ -41,8 +42,15 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
         public MyViewHolder(View v) {
             super(v);
             mView = v;
-            mHomeName = (TextView) v.findViewById(R.id.textview_house_address);
-            mHomeImage = (ImageView) v.findViewById(R.id.imageview_house);
+            mHomeName = v.findViewById(R.id.textview_house_address);
+            mHomeImage = v.findViewById(R.id.imageview_house);
+            v.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            _clickListener.onItemClick(view, getAdapterPosition());
         }
     }
 
@@ -69,8 +77,6 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
 
         if(property.getImageURL() != null && !property.getImageURL().isEmpty())
         {
-            //FirebaseStorage storage = FirebaseStorage.getInstance();
-            //StorageReference httpsReference = storage.getReferenceFromUrl(property.getImageURL());
             Glide.with(holder.mHomeImage.getContext())
                     .load(property.getImageURL())
                     .centerCrop()
@@ -82,9 +88,25 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
         }
         holder.mHomeName.setText(property.getName());
     }
+
     @Override
     public int getItemCount()
     {
         return _dataList.size();
+    }
+
+    public Property getProperty(int id)
+    {
+        return _dataList.get(id);
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener)
+    {
+        _clickListener = itemClickListener;
+    }
+
+    public interface ItemClickListener
+    {
+        void onItemClick(View view, int position);
     }
 }

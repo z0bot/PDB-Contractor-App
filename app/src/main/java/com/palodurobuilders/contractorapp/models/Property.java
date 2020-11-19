@@ -1,8 +1,17 @@
 package com.palodurobuilders.contractorapp.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "property")
 public class Property
 {
+    public static final String PROPERTY_NAME = "property_name";
+
     //Address property
+    @ColumnInfo(name = "address")
     private String address;
     public String getAddress()
     {
@@ -14,6 +23,7 @@ public class Property
     }
 
     //Builder email property
+    @ColumnInfo(name = "email")
     private String email;
     public String getEmail()
     {
@@ -25,6 +35,7 @@ public class Property
     }
 
     //Image URL property
+    @ColumnInfo(name = "imageURL")
     private String imageURL;
     public String getImageURL()
     {
@@ -36,6 +47,9 @@ public class Property
     }
 
     //Name property
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "name")
     private String name;
     public String getName()
     {
@@ -47,6 +61,7 @@ public class Property
     }
 
     //starred property
+    @ColumnInfo(name = "starred")
     private boolean starred;
     public boolean getStarred()
     {
@@ -58,6 +73,7 @@ public class Property
     }
 
     //Owner property
+    @ColumnInfo(name = "owner")
     private String owner;
     public String getOwner()
     {

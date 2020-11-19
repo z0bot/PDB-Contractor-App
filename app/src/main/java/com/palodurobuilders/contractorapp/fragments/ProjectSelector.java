@@ -1,5 +1,6 @@
 package com.palodurobuilders.contractorapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,13 +21,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.palodurobuilders.contractorapp.adapters.ProjectSelectorViewAdaptor;
 import com.palodurobuilders.contractorapp.R;
+import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
 import com.palodurobuilders.contractorapp.models.Property;
+import com.palodurobuilders.contractorapp.pages.PropertyUtilities;
 import com.palodurobuilders.contractorapp.utilities.TestPropertyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectSelector extends Fragment
+public class ProjectSelector extends Fragment implements ProjectSelectorViewAdaptor.ItemClickListener
 {
     RecyclerView _recyclerView;
     ProjectSelectorViewAdaptor _recyclerViewAdapter;
@@ -84,6 +87,25 @@ public class ProjectSelector extends Fragment
     private void setPropertyRecyclerAdapter(List<Property> properties)
     {
         _recyclerViewAdapter = new ProjectSelectorViewAdaptor(getActivity(), properties);
+        _recyclerViewAdapter.setClickListener(this);
         _recyclerView.setAdapter(_recyclerViewAdapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position)
+    {
+        Property selectedProperty = _recyclerViewAdapter.getProperty(position);
+        PropertyDatabase propertyDatabase = PropertyDatabase.getInstance(getActivity());
+        try
+        {
+            propertyDatabase.propertyDao().insertProperty(selectedProperty);
+        }
+        catch(Exception e)
+        {
+            propertyDatabase.propertyDao().updateProperty(selectedProperty);
+        }
+        Intent propertyUtilityIntent = new Intent(getActivity(), PropertyUtilities.class);
+        propertyUtilityIntent.putExtra(Property.PROPERTY_NAME, selectedProperty.getName());
+        startActivity(propertyUtilityIntent);
     }
 }
