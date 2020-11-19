@@ -24,14 +24,15 @@ public class DisplayPropertyDetails extends Fragment
     TextView mOwnerName;
     TextView mEmail;
     TextView mAddress;
+    TextView mPropertyID;
 
-    String _selectedPropertyName;
+    String _selectedPropertyID;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        _selectedPropertyName = getArguments().getString(Property.PROPERTY_NAME);
+        _selectedPropertyID = getArguments().getString(Property.PROPERTY_ID);
     }
 
     @Override
@@ -49,14 +50,16 @@ public class DisplayPropertyDetails extends Fragment
         mOwnerName = view.findViewById(R.id.textview_owner_name);
         mAddress = view.findViewById(R.id.textview_address);
         mEmail = view.findViewById(R.id.textview_email);
+        mPropertyID = view.findViewById(R.id.textview_property_id);
 
         PropertyDatabase propertyDatabase = PropertyDatabase.getInstance(getActivity());
-        Property selectedProperty = propertyDatabase.propertyDao().findPropertyById(_selectedPropertyName).get(0);
+        Property selectedProperty = propertyDatabase.propertyDao().findPropertyById(_selectedPropertyID).get(0);
 
         mPropertyName.setText(selectedProperty.getName());
         mOwnerName.setText(selectedProperty.getOwner());
         mAddress.setText(selectedProperty.getAddress());
         mEmail.setText(selectedProperty.getEmail());
+        mPropertyID.setText(selectedProperty.getDisplayablePropertyID());
 
         Glide.with(Objects.requireNonNull(getContext()))
                 .load(selectedProperty.getImageURL())

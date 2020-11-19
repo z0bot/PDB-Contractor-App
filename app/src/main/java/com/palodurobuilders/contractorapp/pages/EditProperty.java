@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +32,7 @@ import com.google.firebase.storage.UploadTask;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
 import com.palodurobuilders.contractorapp.models.Property;
+import com.palodurobuilders.contractorapp.utilities.PropertyCodeGenerator;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -56,6 +58,7 @@ public class EditProperty extends AppCompatActivity
     Bitmap _bitmap;
     String _firebaseImageUrl;
     Property _property;
+    String _generatedPropertyID;
 
     FirebaseStorage _storage;
     StorageReference _storageReference;
@@ -190,6 +193,8 @@ public class EditProperty extends AppCompatActivity
         //create property object
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> property = new HashMap<>();
+        _generatedPropertyID = PropertyCodeGenerator.generatePropertyCode();
+        property.put("propertyID", _generatedPropertyID);
         property.put("name", mPropertyNameEntry.getText().toString());
         property.put("imageURL", _firebaseImageUrl);
         property.put("starred", _starToggle);
@@ -206,16 +211,16 @@ public class EditProperty extends AppCompatActivity
             property.put("address", mAddressEntry.getText().toString());
         }
 
-        db.collection("Projects")
-                .add(property)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+        db.collection("Projects").document(_generatedPropertyID)
+                .set(property)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override
-                    public void onSuccess(DocumentReference documentReference)
+                    public void onSuccess(Void aVoid)
                     {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Property created", Toast.LENGTH_SHORT).show();
-                        _property = new Property(mPropertyNameEntry.getText().toString(), mOwnerEntry.getText().toString(), mAddressEntry.getText().toString(), mEmailEntry.getText().toString(), _firebaseImageUrl, _starToggle);
+                        _property = new Property(_generatedPropertyID, mPropertyNameEntry.getText().toString(), mOwnerEntry.getText().toString(), mAddressEntry.getText().toString(), mEmailEntry.getText().toString(), _firebaseImageUrl, _starToggle);
                         pushToPropertyUtilities();
                     }
                 })
@@ -242,7 +247,7 @@ public class EditProperty extends AppCompatActivity
             propertyDatabase.propertyDao().updateProperty(_property);
         }
         Intent propertyUtilityIntent = new Intent(this, PropertyUtilities.class);
-        propertyUtilityIntent.putExtra(Property.PROPERTY_NAME, _property.getName());
+        propertyUtilityIntent.putExtra(Property.PROPERTY_ID, _property.getPropertyID());
         startActivity(propertyUtilityIntent);
         finish();
     }

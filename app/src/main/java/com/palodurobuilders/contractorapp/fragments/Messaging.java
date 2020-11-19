@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.models.Message;
+import com.palodurobuilders.contractorapp.models.Property;
 
 import org.w3c.dom.Text;
 
@@ -58,13 +59,14 @@ public class Messaging extends Fragment
     }
 
     //Constants
-    public static final String MESSAGES_CHILD = "messaging/projects/CrossTest";
+    public static final String MESSAGES_CHILD = "messaging/projects/";
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     DatabaseReference mFirebaseReference;
     FirebaseFirestore mDB;
     String mUsername;
+    String _selectedPropertyID;
 
     ProgressBar mProgressBar;
     RecyclerView mMessageRecycler;
@@ -77,6 +79,7 @@ public class Messaging extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        _selectedPropertyID = getArguments().getString(Property.PROPERTY_ID);
     }
 
     @Override
@@ -101,7 +104,7 @@ public class Messaging extends Fragment
             public void onClick(View view)
             {
                 Message message = new Message(mMessageEntry.getText().toString(), mUsername, mUser.getEmail());
-                mFirebaseReference.child(MESSAGES_CHILD).push().setValue(message);
+                mFirebaseReference.child(MESSAGES_CHILD + _selectedPropertyID).push().setValue(message);
                 mMessageEntry.setText("");
             }
         });
@@ -140,7 +143,7 @@ public class Messaging extends Fragment
             }
         };
 
-        DatabaseReference messagesReference = mFirebaseReference.child(MESSAGES_CHILD);
+        DatabaseReference messagesReference = mFirebaseReference.child(MESSAGES_CHILD + _selectedPropertyID);
         FirebaseRecyclerOptions<Message> options = new FirebaseRecyclerOptions.Builder<Message>()
                 .setQuery(messagesReference, parser)
                 .build();

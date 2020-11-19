@@ -41,7 +41,7 @@ public class PropertyUtilities extends AppCompatActivity
 
     propertyUtilityFragmentType _utilityType;
 
-    String _selectedPropertyName;
+    String _selectedPropertyID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,7 +49,7 @@ public class PropertyUtilities extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_utilities);
 
-        _selectedPropertyName = getIntent().getStringExtra(Property.PROPERTY_NAME);
+        _selectedPropertyID = getIntent().getStringExtra(Property.PROPERTY_ID);
 
         mBottomNav = findViewById(R.id.bottomnav_property_utility);
 
@@ -118,7 +118,10 @@ public class PropertyUtilities extends AppCompatActivity
     {
         if(_utilityType.equals(propertyUtilityFragmentType.Messaging))
         {
+            Bundle args = new Bundle();
+            args.putString(Property.PROPERTY_ID, _selectedPropertyID);
             Fragment messagingFragment = new Messaging();
+            messagingFragment.setArguments(args);
             updateFragment(messagingFragment);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
@@ -135,8 +138,8 @@ public class PropertyUtilities extends AppCompatActivity
         {
             //start property details fragment
             Bundle args = new Bundle();
+            args.putString(Property.PROPERTY_ID, _selectedPropertyID);
             Fragment displayDetailsFragment = new DisplayPropertyDetails();
-            args.putString(Property.PROPERTY_NAME, _selectedPropertyName);
             displayDetailsFragment.setArguments(args);
             updateFragment(displayDetailsFragment);
         }
