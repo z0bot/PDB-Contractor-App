@@ -10,10 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".pages.CreateAccount"
-            android:label="Create Account"/>
+            android:name=".pages.EditProperty"
+            android:label="Edit Property Details">
+        </activity>
 
-        <activity android:name=".pages.Login">
+        <activity
+            android:name=".pages.CreateAccount"
+            android:label="Create Account"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".pages.Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,9 +29,12 @@
         </activity>
         <activity
             android:name=".pages.PropertyUtilities"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:label="Property Utilities" />
-        <activity android:name=".pages.PropertySelection"></activity>
+            android:label="Property Utilities"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".pages.PropertySelection"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

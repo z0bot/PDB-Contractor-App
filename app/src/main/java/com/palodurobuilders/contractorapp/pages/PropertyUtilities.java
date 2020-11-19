@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.palodurobuilders.contractorapp.R;
-import com.palodurobuilders.contractorapp.fragments.EditPropertyDetails;
+import com.palodurobuilders.contractorapp.fragments.DisplayPropertyDetails;
 import com.palodurobuilders.contractorapp.fragments.Messaging;
 import com.palodurobuilders.contractorapp.fragments.ProgressGallery;
 
@@ -31,8 +31,7 @@ public class PropertyUtilities extends AppCompatActivity
         Messaging,
         Photos,
         Files,
-        PropertyDetails,
-        EditPropertyDetails
+        PropertyDetails
     }
 
     Toolbar mToolbar;
@@ -49,7 +48,8 @@ public class PropertyUtilities extends AppCompatActivity
 
         mBottomNav = findViewById(R.id.bottomnav_property_utility);
 
-        _utilityType = getPropertyUtilityFragmentType();
+        _utilityType = propertyUtilityFragmentType.PropertyDetails;
+        mBottomNav.setSelectedItemId(R.id.property_info);
 
         setStatusBarColor();
         setTitleBar();
@@ -129,11 +129,8 @@ public class PropertyUtilities extends AppCompatActivity
         else if(_utilityType.equals(propertyUtilityFragmentType.PropertyDetails))
         {
             //start property details fragment
-        }
-        else if(_utilityType.equals(propertyUtilityFragmentType.EditPropertyDetails))
-        {
-            Fragment editDetailsFragment = new EditPropertyDetails();
-            updateFragment(editDetailsFragment);
+            Fragment displayDetailsFragment = new DisplayPropertyDetails();
+            updateFragment(displayDetailsFragment);
         }
     }
 
@@ -143,20 +140,5 @@ public class PropertyUtilities extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_property_utility, fragment);
         fragmentTransaction.commit();
-    }
-
-    //fix this later
-    private propertyUtilityFragmentType getPropertyUtilityFragmentType()
-    {
-        propertyUtilityFragmentType utilityType;
-        try
-        {
-            utilityType = (propertyUtilityFragmentType)getIntent().getExtras().get("PropertyUtilityFragmentType");
-        }
-        catch(Exception e)
-        {
-            return propertyUtilityFragmentType.EditPropertyDetails;
-        }
-        return utilityType;
     }
 }
