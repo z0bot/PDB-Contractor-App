@@ -21,6 +21,7 @@ import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.fragments.DisplayPropertyDetails;
 import com.palodurobuilders.contractorapp.fragments.Messaging;
 import com.palodurobuilders.contractorapp.models.Property;
+import com.palodurobuilders.contractorapp.fragments.ProgressGallery;
 
 import java.util.Objects;
 
@@ -35,7 +36,9 @@ public class PropertyUtilities extends AppCompatActivity
     }
 
     Toolbar mToolbar;
+
     BottomNavigationView mBottomNav;
+
     propertyUtilityFragmentType _utilityType;
 
     String _selectedPropertyName;
@@ -121,6 +124,8 @@ public class PropertyUtilities extends AppCompatActivity
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {
             //start photos fragment
+            Fragment progressGalleryFrag = new ProgressGallery();
+            updateFragment(progressGalleryFrag);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
         {
