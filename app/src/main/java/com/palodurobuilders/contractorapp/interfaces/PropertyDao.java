@@ -16,7 +16,7 @@ public interface PropertyDao
     @Query("Select * from property")
     List<Property> getPropertyList();
 
-    @Query("SELECT * FROM property WHERE name LIKE :search")
+    @Query("SELECT * FROM property WHERE propertyID LIKE :search")
     List<Property> findPropertyById(String search);
 
     @Insert

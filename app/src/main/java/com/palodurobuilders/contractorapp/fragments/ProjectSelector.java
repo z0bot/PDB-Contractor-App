@@ -40,6 +40,7 @@ public class ProjectSelector extends Fragment implements ProjectSelectorViewAdap
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_project_selector, container, false);
     }
+
     //use this as your onCreate method
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
@@ -73,7 +74,7 @@ public class ProjectSelector extends Fragment implements ProjectSelectorViewAdap
                             for(QueryDocumentSnapshot document : task.getResult())
                             {
                                 Property property = document.toObject(Property.class);
-                                if(property.getImageURL() != null)
+                                if(property.getPropertyID() != null)
                                 {
                                     properties.add(property);
                                 }
@@ -105,7 +106,7 @@ public class ProjectSelector extends Fragment implements ProjectSelectorViewAdap
             propertyDatabase.propertyDao().updateProperty(selectedProperty);
         }
         Intent propertyUtilityIntent = new Intent(getActivity(), PropertyUtilities.class);
-        propertyUtilityIntent.putExtra(Property.PROPERTY_NAME, selectedProperty.getName());
+        propertyUtilityIntent.putExtra(Property.PROPERTY_ID, selectedProperty.getPropertyID());
         startActivity(propertyUtilityIntent);
     }
 }

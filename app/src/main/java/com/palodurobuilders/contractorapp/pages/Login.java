@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -47,6 +48,16 @@ public class Login extends AppCompatActivity
         setStatusBarColor();
         findViews();
         setOnClickEvents();
+        checkAuthenticationStatus();
+    }
+
+    private void checkAuthenticationStatus()
+    {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null)
+        {
+            pushToPropertySelection();
+        }
     }
 
     private void findViews()

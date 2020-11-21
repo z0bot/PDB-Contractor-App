@@ -5,24 +5,40 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.palodurobuilders.contractorapp.utilities.PropertyCodeGenerator;
+
 @Entity(tableName = "property")
 public class Property
 {
-    public static final String PROPERTY_NAME = "property_name";
+    public static final String PROPERTY_ID = "property_id";
 
     public Property()
     {
 
     }
 
-    public Property(@NonNull String propertyName, @NonNull String propertyOwner, String propertyAddress, String ownerEmail, String propertyImageURL, boolean propertyStarred)
+    public Property(@NonNull String generatedPropertyID, @NonNull String propertyName, @NonNull String propertyOwner, String propertyAddress, String ownerEmail, String propertyImageURL, boolean propertyStarred)
     {
+        propertyID = generatedPropertyID;
         name = propertyName;
         owner = propertyOwner;
         address = propertyAddress;
         imageURL = propertyImageURL;
         email = ownerEmail;
         starred = propertyStarred;
+    }
+
+    //PropertyID property
+    @PrimaryKey
+    @NonNull
+    private String propertyID;
+    public String getPropertyID()
+    {
+        return propertyID;
+    }
+    public void setPropertyID(String value)
+    {
+        propertyID = value;
     }
 
     //Address property
@@ -62,8 +78,6 @@ public class Property
     }
 
     //Name property
-    @PrimaryKey
-    @NonNull
     @ColumnInfo(name = "name")
     private String name;
     public String getName()
@@ -97,5 +111,10 @@ public class Property
     public void setOwner(String value)
     {
         owner = value;
+    }
+
+    public String getDisplayablePropertyID()
+    {
+        return "Property ID: " + propertyID;
     }
 }
