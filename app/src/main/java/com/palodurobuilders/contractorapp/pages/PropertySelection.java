@@ -1,9 +1,11 @@
 package com.palodurobuilders.contractorapp.pages;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.palodurobuilders.contractorapp.fragments.ProjectSelector;
 import com.palodurobuilders.contractorapp.R;
@@ -46,7 +49,7 @@ public class PropertySelection extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                closeActivity();
+                showLogoutConfirmation();
             }
         });
         mAddProjectButton.setOnClickListener(new View.OnClickListener()
@@ -58,6 +61,33 @@ public class PropertySelection extends AppCompatActivity
                 startActivity(addPropertyIntent);
             }
         });
+    }
+
+    private void showLogoutConfirmation()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                auth.signOut();
+                closeActivity();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void closeActivity()

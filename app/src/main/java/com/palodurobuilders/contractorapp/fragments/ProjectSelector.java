@@ -40,6 +40,7 @@ public class ProjectSelector extends Fragment implements ProjectSelectorViewAdap
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_project_selector, container, false);
     }
+
     //use this as your onCreate method
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
