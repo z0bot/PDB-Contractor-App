@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +44,8 @@ import java.util.UUID;
 
 public class EditProperty extends AppCompatActivity
 {
+    public static String ACTIVITY_SOURCE = "source_activity";
+
     ImageButton mStarButton;
     ImageButton mChooseImageButton;
     ImageView mThumbnail;
@@ -76,6 +79,10 @@ public class EditProperty extends AppCompatActivity
 
         _storage = FirebaseStorage.getInstance();
         _storageReference = _storage.getReference();
+        if(getIntent().getStringExtra(ACTIVITY_SOURCE).equals(PropertySelection.class.getSimpleName()))
+        {
+            _generatedPropertyID = PropertyCodeGenerator.generatePropertyCode();
+        }
     }
 
     private void setListeners()
@@ -118,6 +125,33 @@ public class EditProperty extends AppCompatActivity
         mOwnerEntry = findViewById(R.id.edittext_owner);
         mEmailEntry = findViewById(R.id.edittext_email);
         mAddressEntry = findViewById(R.id.edittext_address);
+
+        if(getIntent().getStringExtra(ACTIVITY_SOURCE).equals(PropertyUtilities.class.getSimpleName()))
+        {
+            PropertyDatabase propertyDatabase = PropertyDatabase.getInstance(this);
+            Property selectedProperty = propertyDatabase.propertyDao().findPropertyById(getIntent().getStringExtra(Property.PROPERTY_ID)).get(0);
+
+            _generatedPropertyID = selectedProperty.getPropertyID();
+            mPropertyNameEntry.setText(selectedProperty.getName());
+            mOwnerEntry.setText(selectedProperty.getOwner());
+            mAddressEntry.setText(selectedProperty.getAddress());
+            mEmailEntry.setText(selectedProperty.getEmail());
+            if(selectedProperty.getStarred())
+            {
+                mStarButton.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(this), R.drawable.ic_star_gold));
+                _starToggle = true;
+            }
+            else
+            {
+                mStarButton.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(this), R.drawable.ic_star_gray));
+                _starToggle = false;
+            }
+            mThumbnail.setVisibility(ImageView.VISIBLE);
+            Glide.with(Objects.requireNonNull(this))
+                    .load(selectedProperty.getImageURL())
+                    .centerCrop()
+                    .into(mThumbnail);
+        }
     }
 
     @Override
@@ -150,7 +184,7 @@ public class EditProperty extends AppCompatActivity
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
 
-        final StorageReference storageReference = _storageReference.child("images/" + UUID.randomUUID().toString());
+        final StorageReference storageReference = _storageReference.child("images/" + _generatedPropertyID + "_thumbnail");
 
         //upload thumbnail image
         storageReference.putFile(_imagePath)
@@ -193,7 +227,6 @@ public class EditProperty extends AppCompatActivity
         //create property object
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> property = new HashMap<>();
-        _generatedPropertyID = PropertyCodeGenerator.generatePropertyCode();
         property.put("propertyID", _generatedPropertyID);
         property.put("name", mPropertyNameEntry.getText().toString());
         property.put("imageURL", _firebaseImageUrl);
@@ -221,7 +254,7 @@ public class EditProperty extends AppCompatActivity
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Property created", Toast.LENGTH_SHORT).show();
                         _property = new Property(_generatedPropertyID, mPropertyNameEntry.getText().toString(), mOwnerEntry.getText().toString(), mAddressEntry.getText().toString(), mEmailEntry.getText().toString(), _firebaseImageUrl, _starToggle);
-                        pushToPropertyUtilities();
+                        addToContractorPropertyList();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -235,6 +268,12 @@ public class EditProperty extends AppCompatActivity
                 });
     }
 
+    private void addToContractorPropertyList()
+    {
+        //TODO: add property to contractor object
+        pushToPropertyUtilities();
+    }
+
     private void pushToPropertyUtilities()
     {
         PropertyDatabase propertyDatabase = PropertyDatabase.getInstance(this);
@@ -246,9 +285,12 @@ public class EditProperty extends AppCompatActivity
         {
             propertyDatabase.propertyDao().updateProperty(_property);
         }
-        Intent propertyUtilityIntent = new Intent(this, PropertyUtilities.class);
-        propertyUtilityIntent.putExtra(Property.PROPERTY_ID, _property.getPropertyID());
-        startActivity(propertyUtilityIntent);
+        if(getIntent().getStringExtra(ACTIVITY_SOURCE).equals(PropertySelection.class.getSimpleName()))
+        {
+            Intent propertyUtilityIntent = new Intent(this, PropertyUtilities.class);
+            propertyUtilityIntent.putExtra(Property.PROPERTY_ID, _property.getPropertyID());
+            startActivity(propertyUtilityIntent);
+        }
         finish();
     }
 

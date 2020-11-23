@@ -129,12 +129,12 @@ public class CreateAccount extends AppCompatActivity
         user.put("users_type", true);
         user.put("users_phone", mPhoneEntry.getText().toString());
 
-        db.collection("Users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+        db.collection("Contractors").document(Objects.requireNonNull(mAuth.getUid()))
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override
-                    public void onSuccess(DocumentReference documentReference)
+                    public void onSuccess(Void aVoid)
                     {
                         Toast.makeText(CreateAccount.this, "User created successfully", Toast.LENGTH_SHORT).show();
                         closeActivity();

@@ -27,8 +27,6 @@ public class PropertySelection extends AppCompatActivity
     ImageButton mArchiveDrawerButton;
     Button mLogoutButton;
     FrameLayout mHouseSelectionFrame;
-    private static final String TAG = "Property Selection";
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,6 +56,7 @@ public class PropertySelection extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent addPropertyIntent = new Intent(getApplicationContext(), EditProperty.class);
+                addPropertyIntent.putExtra(EditProperty.ACTIVITY_SOURCE, PropertySelection.class.getSimpleName());
                 startActivity(addPropertyIntent);
             }
         });

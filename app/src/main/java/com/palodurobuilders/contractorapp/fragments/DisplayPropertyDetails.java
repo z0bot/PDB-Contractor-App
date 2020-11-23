@@ -46,15 +46,16 @@ public class DisplayPropertyDetails extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
+    public void onResume()
     {
-        mPropertyImage = view.findViewById(R.id.imageview_property_image);
-        mPropertyName = view.findViewById(R.id.textview_property_name);
-        mOwnerName = view.findViewById(R.id.textview_owner_name);
-        mAddress = view.findViewById(R.id.textview_address);
-        mEmail = view.findViewById(R.id.textview_email);
-        mPropertyID = view.findViewById(R.id.textview_property_id);
-        mStarred = view.findViewById(R.id.image_star);
+        super.onResume();
+        mPropertyImage = getView().findViewById(R.id.imageview_property_image);
+        mPropertyName = getView().findViewById(R.id.textview_property_name);
+        mOwnerName = getView().findViewById(R.id.textview_owner_name);
+        mAddress = getView().findViewById(R.id.textview_address);
+        mEmail = getView().findViewById(R.id.textview_email);
+        mPropertyID = getView().findViewById(R.id.textview_property_id);
+        mStarred = getView().findViewById(R.id.image_star);
 
         PropertyDatabase propertyDatabase = PropertyDatabase.getInstance(getActivity());
         Property selectedProperty = propertyDatabase.propertyDao().findPropertyById(_selectedPropertyID).get(0);
