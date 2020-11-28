@@ -7,9 +7,8 @@
     android:background="@color/colorFragmentBackground"
     tools:context=".pages.PropertyUtilities">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
+    <FrameLayout
+        android:id="@+id/frame_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +23,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomnav_property_utility"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/frame_toolbar">
 
     </FrameLayout>
 

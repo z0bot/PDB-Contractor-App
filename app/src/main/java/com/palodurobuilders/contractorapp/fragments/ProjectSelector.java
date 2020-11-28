@@ -13,15 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.palodurobuilders.contractorapp.adapters.ProjectSelectorViewAdaptor;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
+import com.palodurobuilders.contractorapp.interfaces.IQueryContractorProjectsCallback;
+import com.palodurobuilders.contractorapp.models.ContractorProjects;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.pages.PropertyUtilities;
 import com.palodurobuilders.contractorapp.utilities.TestPropertyUtils;
@@ -55,32 +60,52 @@ public class ProjectSelector extends Fragment implements ProjectSelectorViewAdap
         //_recyclerView.setLayoutManager(new GridLayoutManager(getActivity()));
         _recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns));
 
-        setUpAdapterFromFirebase();
+        setUpAdapterFromFirebase(new IQueryContractorProjectsCallback()
+        {
+            @Override
+            public void onCallback(List<Property> projectList)
+            {
+                setPropertyRecyclerAdapter(projectList);
+            }
+        });
     }
 
-    private void setUpAdapterFromFirebase()
+    //a very confusing and delicate piece of code. don't touch this
+    private void setUpAdapterFromFirebase(final IQueryContractorProjectsCallback callback)
     {
         final List<Property> properties = new ArrayList<>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference propertyReference = db.collection("Projects");
-        propertyReference.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        db.collection("Contractors").document(auth.getCurrentUser().getUid()).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
                 {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    public void onSuccess(DocumentSnapshot documentSnapshot)
                     {
-                        if(task.isSuccessful())
+                        List<String> propertyIDList = documentSnapshot.toObject(ContractorProjects.class).getProjects();
+                        if(propertyIDList != null)
                         {
-                            for(QueryDocumentSnapshot document : task.getResult())
+                            for(String id : propertyIDList)
                             {
-                                Property property = document.toObject(Property.class);
-                                if(property.getPropertyID() != null)
-                                {
-                                    properties.add(property);
-                                }
+                                db.collection("Projects").document(id).get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+                                        {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+                                            {
+                                                if(task.isSuccessful())
+                                                {
+                                                    Property property = task.getResult().toObject(Property.class);
+                                                    if(property != null)
+                                                    {
+                                                        properties.add(property);
+                                                        callback.onCallback(properties);
+                                                    }
+                                                }
+                                            }
+                                        });
                             }
                         }
-                        setPropertyRecyclerAdapter(properties);
                     }
                 });
     }

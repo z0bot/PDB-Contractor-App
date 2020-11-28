@@ -64,7 +64,6 @@ public class Messaging extends Fragment
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     DatabaseReference mFirebaseReference;
-    FirebaseFirestore mDB;
     String mUsername;
     String _selectedPropertyID;
 

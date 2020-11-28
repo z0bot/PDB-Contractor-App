@@ -46,7 +46,7 @@
             android:hint="@string/enter_email"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
-            android:textColorHint="@color/colorPlaceholderTextGreen" />
+            android:textColorHint="@color/colorTextGreen" />
     </LinearLayout>
 
     <LinearLayout
@@ -81,7 +81,7 @@
             android:hint="@string/enter_password"
             android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorPlaceholderTextGreen" />
+            android:textColorHint="@color/colorTextGreen" />
     </LinearLayout>
 
     <LinearLayout
@@ -116,7 +116,7 @@
             android:hint="@string/enter_password"
             android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorPlaceholderTextGreen" />
+            android:textColorHint="@color/colorTextGreen" />
     </LinearLayout>
 
     <LinearLayout
@@ -149,7 +149,7 @@
             android:ems="10"
             android:hint="@string/enter_first_name"
             android:inputType="textPersonName"
-            android:textColorHint="@color/colorPlaceholderTextGreen" />
+            android:textColorHint="@color/colorTextGreen" />
     </LinearLayout>
 
     <LinearLayout
@@ -182,7 +182,7 @@
             android:ems="10"
             android:hint="@string/enter_last_name"
             android:inputType="textPersonName"
-            android:textColorHint="@color/colorPlaceholderTextGreen" />
+            android:textColorHint="@color/colorTextGreen" />
     </LinearLayout>
 
     <LinearLayout
@@ -215,7 +215,7 @@
             android:ems="10"
             android:hint="@string/enter_phone"
             android:inputType="textPersonName|phone"
-            android:textColorHint="@color/colorPlaceholderTextGreen" />
+            android:textColorHint="@color/colorTextGreen" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
