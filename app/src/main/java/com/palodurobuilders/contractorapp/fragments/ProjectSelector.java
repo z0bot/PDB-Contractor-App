@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.palodurobuilders.contractorapp.adapters.ProjectSelectorViewAdaptor;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
+import com.palodurobuilders.contractorapp.interfaces.IItemClickListener;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.pages.PropertyUtilities;
 import com.palodurobuilders.contractorapp.utilities.TestPropertyUtils;
@@ -29,7 +30,7 @@ import com.palodurobuilders.contractorapp.utilities.TestPropertyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectSelector extends Fragment implements ProjectSelectorViewAdaptor.ItemClickListener
+public class ProjectSelector extends Fragment implements IItemClickListener
 {
     RecyclerView _recyclerView;
     ProjectSelectorViewAdaptor _recyclerViewAdapter;

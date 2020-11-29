@@ -127,7 +127,10 @@ public class PropertyUtilities extends AppCompatActivity
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {
             //start photos fragment
+            Bundle args = new Bundle();
+            args.putString(Property.PROPERTY_ID, _selectedPropertyID);
             Fragment progressGalleryFrag = new ProgressGallery();
+            progressGalleryFrag.setArguments(args);
             updateFragment(progressGalleryFrag);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
