@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -20,13 +21,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.fragments.DisplayPropertyDetails;
 import com.palodurobuilders.contractorapp.fragments.Messaging;
+import com.palodurobuilders.contractorapp.fragments.ToolbarEditButton;
+import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.fragments.ProgressGallery;
 
 import java.util.Objects;
 
-public class PropertyUtilities extends AppCompatActivity
+public class PropertyUtilities extends AppCompatActivity implements IToolbarEditButton
 {
+    @Override
+    public void editButtonClicked()
+    {
+        Intent addPropertyIntent = new Intent(getApplicationContext(), EditProperty.class);
+        addPropertyIntent.putExtra(EditProperty.ACTIVITY_SOURCE, PropertyUtilities.class.getSimpleName());
+        addPropertyIntent.putExtra(Property.PROPERTY_ID, _selectedPropertyID);
+        startActivity(addPropertyIntent);
+    }
+
     public enum propertyUtilityFragmentType
     {
         Messaging,
@@ -57,7 +69,7 @@ public class PropertyUtilities extends AppCompatActivity
         mBottomNav.setSelectedItemId(R.id.property_info);
 
         setStatusBarColor();
-        setTitleBar();
+        setEditButtonToolbar(true);
         setFragment();
 
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -123,6 +135,7 @@ public class PropertyUtilities extends AppCompatActivity
             Fragment messagingFragment = new Messaging();
             messagingFragment.setArguments(args);
             updateFragment(messagingFragment);
+            setEditButtonToolbar(false);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {
@@ -132,6 +145,7 @@ public class PropertyUtilities extends AppCompatActivity
             Fragment progressGalleryFrag = new ProgressGallery();
             progressGalleryFrag.setArguments(args);
             updateFragment(progressGalleryFrag);
+            setEditButtonToolbar(false);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
         {
@@ -145,7 +159,19 @@ public class PropertyUtilities extends AppCompatActivity
             Fragment displayDetailsFragment = new DisplayPropertyDetails();
             displayDetailsFragment.setArguments(args);
             updateFragment(displayDetailsFragment);
+            setEditButtonToolbar(true);
         }
+    }
+
+    private void setEditButtonToolbar(boolean hasEditButton)
+    {
+        ToolbarEditButton editToolbar = new ToolbarEditButton(hasEditButton);
+        editToolbar.setInterface(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_toolbar, editToolbar);
+        fragmentTransaction.commit();
     }
 
     private void updateFragment(Fragment fragment)
