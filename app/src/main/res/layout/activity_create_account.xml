@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -27,7 +26,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <ImageView
-            android:id="@+id/image_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -62,7 +60,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
 
         <ImageView
-            android:id="@+id/image_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -85,7 +82,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -97,7 +93,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
         <ImageView
-            android:id="@+id/image_password_reentry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -132,7 +127,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <ImageView
-            android:id="@+id/image_first_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -165,7 +159,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
         <ImageView
-            android:id="@+id/image_last_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -198,7 +191,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
         <ImageView
-            android:id="@+id/image_phone"
             android:layout_width="32dp"
             android:layout_height="33dp"
             android:layout_gravity="center_vertical"
@@ -225,10 +217,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:contentDescription="Check Mark Button"
+        android:contentDescription="@string/check_mark_button"
         app:backgroundTint="@color/colorTextGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_check" />
+        app:srcCompat="@drawable/ic_check"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

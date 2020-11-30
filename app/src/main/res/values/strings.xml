@@ -5,43 +5,27 @@
     <string name="pdb_logo">PDB Logo</string>
     <string name="plus_button">Plus Button</string>
     <string name="archive_drawer">Archive Drawer</string>
-    <string name="toast_test">Hello Jeff Thompas</string>
-    <string name="home_details_button">home details button</string>
-    <string name="file_button">file button</string>
-    <string name="gallery_button">gallery button</string>
-    <string name="messaging_button">messaging button</string>
     <string name="property_name">Property Name</string>
     <string name="add_image_button">add image button</string>
     <string name="owner">Owner:</string>
     <string name="add_cover_photo">Add Cover Photo</string>
     <string name="star_button">star button</string>
     <string name="enter_name">Enter Name</string>
-    <string name="notes">Notes:</string>
-    <string name="add_notes">Add Notes</string>
     <string name="login">Login</string>
     <string name="create_an_account">Create an account</string>
-    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="palo_duro_builders_logo_with_text">Palo Duro Builders logo with text</string>
     <string name="email">Email:</string>
     <string name="enter_email">Enter Email</string>
-    <string name="password_colon">Password:</string>
     <string name="enter_password">Enter Password</string>
-    <string name="create_account">Create Account</string>
-    <string name="Cancel">Cancel</string>
-    <string name="reenter_password_colon">Re-Enter Password:</string>
-    <string name="first_name">First Name:</string>
     <string name="enter_first_name">Enter First Name</string>
-    <string name="last_name">Last Name:</string>
     <string name="enter_last_name">Enter Last Name</string>
-    <string name="phone">Phone:</string>
     <string name="enter_phone">Enter Phone</string>
     <string name="email_icon">Email Icon</string>
     <string name="profile_icon">Profile Icon</string>
     <string name="lock_icon">Lock Icon</string>
     <string name="confirm_lock_icon">Confirm Lock Icon</string>
     <string name="phone_icon">Phone Icon</string>
-    <string name="textview">TextView</string>
     <string name="image_for_a_house_to_display_on_project_selector">Image for a house to display on project selector</string>
     <string name="_2020_biden_st">2020 Biden St.</string>
     <string name="email_string">Email</string>
@@ -56,14 +40,21 @@
     <string name="address">Address:</string>
     <string name="enter_address">Enter address</string>
     <string name="property_image">Property Image</string>
-    <string name="title_activity_add_property">AddProperty</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
     <string name="star_icon">star icon</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_icon">Edit icon</string>
+    <string name="check_mark_button">Check Mark Button</string>
+    <string name="title">Title:</string>
+    <string name="enter_change_order_title">Enter change order title</string>
+    <string name="summary">Summary:</string>
+    <string name="enter_change_order_summary">Enter change order summary</string>
+    <string name="previous_price">Previous Price:</string>
+    <string name="enter_previous_service_cost">Enter previous service cost</string>
+    <string name="new_price">New Price:</string>
+    <string name="enter_new_service_cost">Enter new service cost</string>
+    <string name="todo">TODO</string>
 </resources>
