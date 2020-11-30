@@ -74,7 +74,6 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/image_star">
 
         <TextView
-            android:id="@+id/textview_owner"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -105,7 +104,6 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:id="@+id/textview_email_label"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -136,7 +134,6 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
-            android:id="@+id/textview_address_label"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

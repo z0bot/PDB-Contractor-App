@@ -2,7 +2,6 @@ package com.palodurobuilders.contractorapp.fragments;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 

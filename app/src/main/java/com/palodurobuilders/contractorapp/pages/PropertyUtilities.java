@@ -2,7 +2,6 @@ package com.palodurobuilders.contractorapp.pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,18 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.palodurobuilders.contractorapp.R;
+import com.palodurobuilders.contractorapp.fragments.ChangeOrder;
 import com.palodurobuilders.contractorapp.fragments.DisplayPropertyDetails;
 import com.palodurobuilders.contractorapp.fragments.Messaging;
 import com.palodurobuilders.contractorapp.fragments.ToolbarEditButton;
 import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.fragments.ProgressGallery;
-
-import java.util.Objects;
 
 public class PropertyUtilities extends AppCompatActivity implements IToolbarEditButton
 {
@@ -46,8 +43,6 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
         Files,
         PropertyDetails
     }
-
-    Toolbar mToolbar;
 
     BottomNavigationView mBottomNav;
 
@@ -118,14 +113,6 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
         return true;
     }
 
-    private void setTitleBar()
-    {
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
     private void setFragment()
     {
         if(_utilityType.equals(propertyUtilityFragmentType.Messaging))
@@ -147,6 +134,12 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
         {
             //start files fragment
+            Bundle args = new Bundle();
+            args.putString(Property.PROPERTY_ID, _selectedPropertyID);
+            Fragment changeOrderFragment = new ChangeOrder();
+            changeOrderFragment.setArguments(args);
+            updateFragment(changeOrderFragment);
+            setEditButtonToolbar(false);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.PropertyDetails))
         {
