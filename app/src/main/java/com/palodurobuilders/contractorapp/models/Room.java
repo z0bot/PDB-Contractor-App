@@ -29,6 +29,7 @@ public class Room
     public List<Image> getImages()
     {
         Image addImage = new Image();
+        addImage.setRoomID(getRoomID());
         if(Images!=null)
         {
             Images.add(addImage);

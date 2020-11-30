@@ -41,5 +41,13 @@ public class Image
     {
         is360 = value;
     }
-
+    public String roomID;
+    public String getRoomID()
+    {
+        return roomID;
+    }
+    public void setRoomID(String value)
+    {
+        roomID = value;
+    }
 }

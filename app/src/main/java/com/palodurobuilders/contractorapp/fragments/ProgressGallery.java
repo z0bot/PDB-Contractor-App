@@ -1,12 +1,15 @@
 package com.palodurobuilders.contractorapp.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +24,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,8 +39,13 @@ import com.palodurobuilders.contractorapp.models.Image;
 import com.palodurobuilders.contractorapp.models.Room;
 import com.palodurobuilders.contractorapp.models.Property;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ProgressGallery extends Fragment implements IHandleChildRecyclerClick
@@ -47,7 +56,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     ImageView _mSelectedImageView;
     FirebaseStorage _storage;
     StorageReference _storageReference;
-    String _propertyID, _firebaseImageUrlString;
+    String _propertyID, _firebaseImageUrlString, _roomID;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -94,13 +103,13 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     @Override
     public void onClick(View view, Image image)
     {
-        if(image.getDate() == null)
+        if(image.getImageURL() == null)
         {
+            _roomID = image.getRoomID();
             //setting up the intent for file browsing
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/jpeg");
             startActivityForResult(Intent.createChooser(intent, "Select a JPEG Image"), RESULT_LOAD_IMAGE);
-            beginImageUpload();
         }
         else
         {
@@ -117,6 +126,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
             if(requestCode == RESULT_LOAD_IMAGE)
             {
                 _imagePath = data.getData();
+                beginImageUpload(_roomID);
                 //_mSelectedImageView.setImageURI(_imagePath);
             }
         }
@@ -170,7 +180,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     }
 
     //will upload the selected file to firebase
-    public void beginImageUpload()
+    public void beginImageUpload(String roomID)
     {
         // this child reference now points to images/GUID
         final StorageReference imageReference = _storageReference.child("images/" + UUID.randomUUID().toString());
@@ -187,6 +197,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                             public void onSuccess(Uri uri)
                             {
                                 _firebaseImageUrlString = uri.toString();
+                                uploadToFirebase();
                             }
                         });
                     }
@@ -201,7 +212,6 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                 });
     }
 
-    /* THIS IS PUT ON HOLD DO THIS LATER NOW I GUESS
     private void uploadToFirebase()
     {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
@@ -210,12 +220,52 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Map<String, Object> room = new HashMap<>();
-        room.put("propertyID", _propertyID);
+        Map<String, Object> image = new HashMap<>();
+        image.put("propertyID", _propertyID);
+        image.put("imageURL", _firebaseImageUrlString);
+        image.put("date", getDate());
 
-        db.collection("Projects").document(_propertyID).collection("Rooms").document()
+        db.collection("Projects").document(_propertyID).collection("Rooms").document(_roomID).collection("Images")
+                .add(image)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference)
+                    {
+                        progressDialog.dismiss();
+                        reloadFragment();
+                        Toast.makeText(getActivity(), "Image uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Error uploading image", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
-    */
+
+    private String getDate()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String currentTime = sdf.format(new Date());
+        return currentTime;
+    }
+
+    private void reloadFragment()
+    {
+        FragmentManager fragMan = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragTrans = fragMan.beginTransaction();
+        Bundle args = new Bundle();
+        args.putString(Property.PROPERTY_ID, _propertyID);
+        ProgressGallery pg = new ProgressGallery();
+        pg.setArguments(args);
+        fragTrans.replace(R.id.frame_property_utility, pg);
+        fragTrans.commit();
+    }
 
     /*
     private List<Room> GalleryRoomList()
