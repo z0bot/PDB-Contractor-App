@@ -1,5 +1,6 @@
 package com.palodurobuilders.contractorapp.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Room
@@ -15,29 +16,54 @@ public class Room
     }
 
     private String name;
-    public String getRoomTitle()
+    public String getName()
     {
         return name;
     }
-    public void setRoomTitle(String value)
+    public void setName(String value)
     {
         name=value;
     }
 
     private List<Image> Images;
-    public List<Image> getImageList()
+    public List<Image> getImages()
     {
+        Image addImage = new Image();
+        if(Images!=null)
+        {
+            Images.add(addImage);
+        }
+        else
+        {
+            Images = new ArrayList<>();
+            Images.add(addImage);
+        }
         return Images;
     }
-    public void setImageList(List<Image> imageList)
+    public void setImages(List<Image> imageList)
     {
         Images = imageList;
     }
 
+    public void addImage(Image image)
+    {
+        if (Images == null)
+        {
+            Images = new ArrayList<>();
+        }
+        Images.add(image);
+    }
+
+    /*
     public Room(String roomName, List<Image> imageList)
     {
         name = roomName;
         Images = imageList;
+    }
+     */
+    public Room()
+    {
+
     }
 
 }

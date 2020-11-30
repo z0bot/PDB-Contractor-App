@@ -45,7 +45,7 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
         Room room = _RoomList.get(position);
 
         // for the created instance get the title and set it as the text for the text view
-        viewHolder.GalleryRoomTitle.setText(room.getRoomTitle());
+        viewHolder.GalleryRoomTitle.setText(room.getName());
 
         // create a layout manager to assign a layout to the recyclerview
 
@@ -54,11 +54,11 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
 
         //Since this is nested, need to define how many child items should be pre-fetched
         //when the child recyclerView is nested inside the parent recyclerView
-        layoutManager.setInitialPrefetchItemCount(room.getImageList().size());
+        //layoutManager.setInitialPrefetchItemCount(room.getImageList().size());
 
         //create instance of child item view adapter
         //and set its adapter, layout manager and recyclerviewPool
-        GalleryImageViewAdaptor galleryImageViewAdaptor = new GalleryImageViewAdaptor(room.getImageList());
+        GalleryImageViewAdaptor galleryImageViewAdaptor = new GalleryImageViewAdaptor(room.getImages());
         galleryImageViewAdaptor.setClickListener(this);
 
         viewHolder.GalleryImageRecyclerView.setLayoutManager(layoutManager);

@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -40,7 +39,7 @@ public class GalleryImageViewAdaptor extends RecyclerView.Adapter<GalleryImageVi
     public void onBindViewHolder(GalleryImageViewHolder viewHolder, int position)
     {
         Image image = _ImageList.get(position);
-        viewHolder.mImageDate.setText(image.getImageDate());
+        viewHolder.mImageDate.setText(image.getDate());
         //viewHolder.GalleryImage_RoomImage.setImageDrawable(ContextCompat.getDrawable(viewHolder.GalleryImage_RoomImage.getContext(), image.getRoomImage()));
         if(image.getImageURL() != null && !image.getImageURL().isEmpty())
         {

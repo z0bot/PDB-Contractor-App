@@ -30,6 +30,7 @@ import com.google.firebase.storage.UploadTask;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.adapters.GalleryRoomViewAdapter;
 import com.palodurobuilders.contractorapp.interfaces.IHandleChildRecyclerClick;
+import com.palodurobuilders.contractorapp.interfaces.IQueryRoomsCallback;
 import com.palodurobuilders.contractorapp.models.Image;
 import com.palodurobuilders.contractorapp.models.Room;
 import com.palodurobuilders.contractorapp.models.Property;
@@ -70,7 +71,6 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-
         _recyclerView.setLayoutManager(layoutManager);
 
         // gets the property ID from passed in arg of page
@@ -80,12 +80,21 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         _storage = FirebaseStorage.getInstance();
         // creating a storage reference to upload and download files
         _storageReference = _storage.getReference();
+
+        downloadRooms(new IQueryRoomsCallback()
+        {
+            @Override
+            public void onCallback(List<Room> roomList)
+            {
+                setRecyclerViewAdapter(roomList);
+            }
+        });
     }
 
     @Override
     public void onClick(View view, Image image)
     {
-        if(image.getImageDate() == null)
+        if(image.getDate() == null)
         {
             //setting up the intent for file browsing
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -119,10 +128,10 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         _recyclerView.setAdapter(_recyclerViewAdapter);
     }
 
-    public void downloadRooms()
+    public void downloadRooms(final IQueryRoomsCallback callback)
     {
         final List<Room> roomList = new ArrayList<>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference roomReference = db.collection("Projects").document(_propertyID).collection("Rooms");
         roomReference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
@@ -134,11 +143,28 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                         {
                             for(QueryDocumentSnapshot document : task.getResult())
                             {
-                                Room room = document.toObject(Room.class);
-                                roomList.add(room);
+                                final Room room = document.toObject(Room.class);
+                                CollectionReference imageReference = db.collection("Projects").document(_propertyID).collection("Rooms").document(room.getRoomID()).collection("Images");
+                                imageReference.get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                                        {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task)
+                                            {
+                                                if(task.isSuccessful())
+                                                {
+                                                    for(QueryDocumentSnapshot document : task.getResult())
+                                                    {
+                                                        room.addImage(document.toObject(Image.class));
+                                                    }
+                                                    roomList.add(room);
+                                                    callback.onCallback(roomList);
+                                                }
+                                            }
+                                        });
                             }
+                            //callback.onCallback(roomList);
                         }
-                        setRecyclerViewAdapter(roomList);
                     }
                 });
     }
