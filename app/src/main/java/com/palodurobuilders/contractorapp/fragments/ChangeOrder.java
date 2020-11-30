@@ -1,5 +1,6 @@
 package com.palodurobuilders.contractorapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ import com.palodurobuilders.contractorapp.adapters.ChangeOrderViewAdapter;
 import com.palodurobuilders.contractorapp.interfaces.IQueryChangeOrdersCallback;
 import com.palodurobuilders.contractorapp.models.ChangeOrderForm;
 import com.palodurobuilders.contractorapp.models.Property;
+import com.palodurobuilders.contractorapp.pages.CreateChangeOrderForm;
+import com.palodurobuilders.contractorapp.pages.DisplayChangeOrderForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,27 +52,22 @@ public class ChangeOrder extends Fragment implements ChangeOrderViewAdapter.Item
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
+    public void onResume()
     {
-        mAddChangeOrderFab = view.findViewById(R.id.fab_add_change_order);
+        super.onResume();
+        mAddChangeOrderFab = getView().findViewById(R.id.fab_add_change_order);
         mAddChangeOrderFab.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Bundle args = new Bundle();
-                args.putString(Property.PROPERTY_ID, _selectedPropertyID);
-                CreateNewChangeOrder createOrder = new CreateNewChangeOrder();
-                createOrder.setArguments(args);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.addToBackStack("create_change_order");
-                fragmentTransaction.replace(R.id.frame_property_utility, createOrder);
-                fragmentTransaction.commit();
+                Intent createForm = new Intent(getActivity(), CreateChangeOrderForm.class);
+                createForm.putExtra(Property.PROPERTY_ID, _selectedPropertyID);
+                startActivity(createForm);
             }
         });
 
-        _recyclerView = view.findViewById(R.id.recycler_change_order);
+        _recyclerView = getView().findViewById(R.id.recycler_change_order);
         _recyclerView.setHasFixedSize(true);
 
         int numberOfColumns = 2;
@@ -119,18 +117,12 @@ public class ChangeOrder extends Fragment implements ChangeOrderViewAdapter.Item
     public void onItemClick(View view, int position)
     {
         ChangeOrderForm form = _recyclerViewAdapter.getForm(position);
-        Bundle args = new Bundle();
-        args.putString("HTML", form.getHtml());
+        Intent displayForm = new Intent(getActivity(), DisplayChangeOrderForm.class);
+        displayForm.putExtra("HTML", form.getHtml());
         if(form.getSignedname() != null)
         {
-            args.putString("signature", form.getSignedname());
+            displayForm.putExtra("signature", form.getSignedname());
         }
-        DisplayChangeOrder display = new DisplayChangeOrder();
-        display.setArguments(args);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack("display_change_order");
-        fragmentTransaction.replace(R.id.frame_property_utility, display);
-        fragmentTransaction.commit();
+        startActivity(displayForm);
     }
 }
