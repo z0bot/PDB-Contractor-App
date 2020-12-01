@@ -9,12 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".pages.CreateChangeOrderForm" >
+        <activity android:name=".pages.CreateChangeOrderForm"
+            android:label="Create Change Order"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".pages.DisplayChangeOrderForm" />
+        <activity android:name=".pages.DisplayChangeOrderForm"
+            android:label="Change Order Details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".pages.EditProperty"
-            android:label="Edit Property Details" />
+            android:label="Edit Property Details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".pages.CreateAccount"
             android:label="Create Account"
