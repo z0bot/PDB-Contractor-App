@@ -21,6 +21,16 @@ public class Message
         senderID = messageSenderID;
     }
 
+    public Message(String messageText, String messageSender, String messageSenderID, String messageMediaUrl)
+    {
+        date = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.getDefault()).format(new Date());
+        date = date.replace('_', 'T');
+        text = messageText;
+        sender = messageSender;
+        senderID = messageSenderID;
+        mediaURL = messageMediaUrl;
+    }
+
     //ID Property
     private String id;
     public String getId()
@@ -78,5 +88,16 @@ public class Message
     public void setText(String value)
     {
         text = value;
+    }
+
+    //Media url property
+    private String mediaURL;
+    public String getMediaURL()
+    {
+        return mediaURL;
+    }
+    public void setMediaURL(String value)
+    {
+        mediaURL = value;
     }
 }

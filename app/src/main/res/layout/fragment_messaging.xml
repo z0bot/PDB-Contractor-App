@@ -22,6 +22,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageButton
+                android:id="@+id/button_add_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -41,6 +42,7 @@
                     android:id="@+id/button_send"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
@@ -49,6 +51,7 @@
                     android:src="@drawable/ic_send"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/edittext_message"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
@@ -93,6 +96,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_outgoing_media_preview"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_button_background"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

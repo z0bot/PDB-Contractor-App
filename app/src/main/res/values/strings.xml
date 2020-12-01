@@ -57,4 +57,6 @@
     <string name="new_price">New Price:</string>
     <string name="enter_new_service_cost">Enter new service cost</string>
     <string name="todo">TODO</string>
+    <string name="outgoing_media">Outgoing Media</string>
+    <string name="incoming_media">Incoming Media</string>
 </resources>

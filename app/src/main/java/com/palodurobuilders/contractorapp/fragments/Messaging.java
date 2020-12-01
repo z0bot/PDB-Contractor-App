@@ -1,11 +1,17 @@
 package com.palodurobuilders.contractorapp.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,22 +23,34 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.palodurobuilders.contractorapp.R;
+import com.palodurobuilders.contractorapp.interfaces.IUploadFirebaseStorageImageCallback;
 import com.palodurobuilders.contractorapp.models.Message;
 import com.palodurobuilders.contractorapp.models.Property;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Objects;
 
 public class Messaging extends Fragment
 {
     public static class MessageViewHolder extends RecyclerView.ViewHolder
     {
+        ImageView mIncomingMedia;
+        ImageView mOutgoingMedia;
         TextView outgoingMessageText;
         ConstraintLayout outgoingMessageConstraint;
         TextView incomingMessageText;
@@ -44,6 +62,8 @@ public class Messaging extends Fragment
         public MessageViewHolder(View view)
         {
             super(view);
+            mOutgoingMedia = view.findViewById(R.id.image_outgoing_media);
+            mIncomingMedia = view.findViewById(R.id.image_incoming_media);
             outgoingMessageText = view.findViewById(R.id.textview_outgoing_message);
             outgoingMessageConstraint = view.findViewById(R.id.constraint_outgoing_message);
             incomingMessageText = view.findViewById(R.id.textview_incoming_message);
@@ -62,13 +82,17 @@ public class Messaging extends Fragment
     DatabaseReference mFirebaseReference;
     String mUsername;
     String _selectedPropertyID;
+    Uri _imagePath;
+    Bitmap _bitmap;
 
     ProgressBar mProgressBar;
     RecyclerView mMessageRecycler;
     LinearLayoutManager mLinearLayoutManager;
     FirebaseRecyclerAdapter<Message, MessageViewHolder> mFirebaseAdapter;
     ImageButton mSendButton;
+    ImageButton mAddImageButton;
     EditText mMessageEntry;
+    ImageView mPreviewMedia;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -90,6 +114,8 @@ public class Messaging extends Fragment
         mMessageRecycler = view.findViewById(R.id.recycler_messages);
         mSendButton = view.findViewById(R.id.button_send);
         mMessageEntry = view.findViewById(R.id.edittext_message);
+        mAddImageButton = view.findViewById(R.id.button_add_image);
+        mPreviewMedia = view.findViewById(R.id.image_outgoing_media_preview);
 
         setupFirebase();
 
@@ -98,11 +124,92 @@ public class Messaging extends Fragment
             @Override
             public void onClick(View view)
             {
-                Message message = new Message(mMessageEntry.getText().toString(), mUsername, mUser.getEmail());
-                mFirebaseReference.child(MESSAGES_CHILD + _selectedPropertyID).push().setValue(message);
-                mMessageEntry.setText("");
+                if(_imagePath != null)
+                {
+                    uploadOutgoingMedia(new IUploadFirebaseStorageImageCallback()
+                    {
+                        @Override
+                        public void onCallback(String firebaseUrl)
+                        {
+                            Message message = new Message(mMessageEntry.getText().toString(), mUsername, mUser.getEmail(), firebaseUrl);
+                            mFirebaseReference.child(MESSAGES_CHILD + _selectedPropertyID).push().setValue(message);
+                            mMessageEntry.setText("");
+                            _imagePath = null;
+                            mPreviewMedia.setVisibility(ImageView.GONE);
+                        }
+                    });
+                }
+                else
+                {
+                    Message message = new Message(mMessageEntry.getText().toString(), mUsername, mUser.getEmail());
+                    mFirebaseReference.child(MESSAGES_CHILD + _selectedPropertyID).push().setValue(message);
+                    mMessageEntry.setText("");
+                }
             }
         });
+
+        mAddImageButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpeg");
+                startActivityForResult(Intent.createChooser(intent, "Select a JPEG Image"), 1);
+            }
+        });
+    }
+
+    private void uploadOutgoingMedia(final IUploadFirebaseStorageImageCallback callback)
+    {
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + _selectedPropertyID);
+        storageReference.putFile(_imagePath)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                    {
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                        {
+                            @Override
+                            public void onSuccess(Uri uri)
+                            {
+                                String firebaseImageUrl = uri.toString();
+                                callback.onCallback(firebaseImageUrl);
+                            }
+                        });
+                    }
+                });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK)
+        {
+            if(requestCode == 1)
+            {
+                _imagePath = data.getData();
+                setImagePreview();
+            }
+        }
+    }
+
+    private void setImagePreview()
+    {
+        InputStream inputStream;
+        try
+        {
+            inputStream = getActivity().getContentResolver().openInputStream(_imagePath);
+            _bitmap = BitmapFactory.decodeStream(inputStream);
+            mPreviewMedia.setImageBitmap(_bitmap);
+            mPreviewMedia.setVisibility(ImageView.VISIBLE);
+        }
+        catch(FileNotFoundException e)
+        {
+            Toast.makeText(getActivity(), "An error occurred.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupFirebase()
@@ -153,6 +260,12 @@ public class Messaging extends Fragment
                 {
                     if(message.getSenderID().equals(mUser.getEmail()))
                     {
+                        if(message.getMediaURL() != null)
+                        {
+                            Glide.with(Objects.requireNonNull(getContext()))
+                                    .load(message.getMediaURL())
+                                    .into(holder.mOutgoingMedia);
+                        }
                         holder.mNameDateLinear.setVisibility(LinearLayout.GONE);
                         holder.incomingMessageConstraint.setVisibility(ConstraintLayout.INVISIBLE);
                         holder.outgoingMessageConstraint.setVisibility(ConstraintLayout.VISIBLE);
@@ -160,6 +273,12 @@ public class Messaging extends Fragment
                     }
                     else
                     {
+                        if(message.getMediaURL() != null)
+                        {
+                            Glide.with(Objects.requireNonNull(getContext()))
+                                    .load(message.getMediaURL())
+                                    .into(holder.mIncomingMedia);
+                        }
                         //set name and time
                         holder.mNameDateLinear.setVisibility(LinearLayout.VISIBLE);
                         holder.mNameText.setVisibility(TextView.VISIBLE);
