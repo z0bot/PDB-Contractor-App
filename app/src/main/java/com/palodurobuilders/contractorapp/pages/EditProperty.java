@@ -360,6 +360,7 @@ public class EditProperty extends AppCompatActivity
             _bitmap = BitmapFactory.decodeStream(inputStream);
             mThumbnail.setImageBitmap(_bitmap);
             mThumbnail.setVisibility(ImageView.VISIBLE);
+            _firebaseImageUrl = null;
         }
         catch(FileNotFoundException e)
         {

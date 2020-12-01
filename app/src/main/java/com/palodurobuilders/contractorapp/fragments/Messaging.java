@@ -1,6 +1,7 @@
 package com.palodurobuilders.contractorapp.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -93,6 +94,8 @@ public class Messaging extends Fragment
     ImageButton mAddImageButton;
     EditText mMessageEntry;
     ImageView mPreviewMedia;
+    ConstraintLayout mPreviewConstraint;
+    ImageButton mCancelPreviewButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -116,9 +119,20 @@ public class Messaging extends Fragment
         mMessageEntry = view.findViewById(R.id.edittext_message);
         mAddImageButton = view.findViewById(R.id.button_add_image);
         mPreviewMedia = view.findViewById(R.id.image_outgoing_media_preview);
+        mCancelPreviewButton = view.findViewById(R.id.button_cancel_media);
+        mPreviewConstraint = view.findViewById(R.id.constraint_media_preview);
 
         setupFirebase();
 
+        mCancelPreviewButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                _imagePath = null;
+                mPreviewConstraint.setVisibility(ConstraintLayout.GONE);
+            }
+        });
         mSendButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -135,7 +149,7 @@ public class Messaging extends Fragment
                             mFirebaseReference.child(MESSAGES_CHILD + _selectedPropertyID).push().setValue(message);
                             mMessageEntry.setText("");
                             _imagePath = null;
-                            mPreviewMedia.setVisibility(ImageView.GONE);
+                            mPreviewConstraint.setVisibility(ConstraintLayout.GONE);
                         }
                     });
                 }
@@ -162,6 +176,10 @@ public class Messaging extends Fragment
 
     private void uploadOutgoingMedia(final IUploadFirebaseStorageImageCallback callback)
     {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
+
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + _selectedPropertyID);
         storageReference.putFile(_imagePath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
@@ -176,6 +194,7 @@ public class Messaging extends Fragment
                             {
                                 String firebaseImageUrl = uri.toString();
                                 callback.onCallback(firebaseImageUrl);
+                                progressDialog.dismiss();
                             }
                         });
                     }
@@ -204,7 +223,7 @@ public class Messaging extends Fragment
             inputStream = getActivity().getContentResolver().openInputStream(_imagePath);
             _bitmap = BitmapFactory.decodeStream(inputStream);
             mPreviewMedia.setImageBitmap(_bitmap);
-            mPreviewMedia.setVisibility(ImageView.VISIBLE);
+            mPreviewConstraint.setVisibility(ConstraintLayout.VISIBLE);
         }
         catch(FileNotFoundException e)
         {
@@ -298,6 +317,18 @@ public class Messaging extends Fragment
             {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 return new MessageViewHolder(inflater.inflate(R.layout.item_message, parent, false));
+            }
+
+            @Override
+            public long getItemId(int position)
+            {
+                return position;
+            }
+
+            @Override
+            public int getItemViewType(int position)
+            {
+                return position;
             }
         };
 
