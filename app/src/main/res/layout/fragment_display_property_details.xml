@@ -74,10 +74,9 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/image_star">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="97dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:fontFamily="@font/taileb"
             android:text="@string/owner"
             android:textColor="@color/colorTextGreen"
@@ -87,7 +86,7 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:id="@+id/textview_owner_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -104,10 +103,9 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:fontFamily="@font/taileb"
             android:text="@string/email"
             android:textColor="@color/colorTextGreen"
@@ -117,7 +115,7 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:id="@+id/textview_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -134,10 +132,9 @@ tools:context=".fragments.DisplayPropertyDetails">
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="101dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:fontFamily="@font/taileb"
             android:text="@string/address"
             android:textColor="@color/colorTextGreen"
@@ -147,7 +144,7 @@ tools:context=".fragments.DisplayPropertyDetails">
             android:id="@+id/textview_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:textSize="20sp" />
 
     </LinearLayout>
