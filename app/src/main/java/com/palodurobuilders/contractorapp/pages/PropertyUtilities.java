@@ -64,7 +64,6 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
         mBottomNav.setSelectedItemId(R.id.property_info);
 
         setStatusBarColor();
-        setEditButtonToolbar(true);
         setFragment();
 
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -122,14 +121,17 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment messagingFragment = new Messaging();
             messagingFragment.setArguments(args);
             updateFragment(messagingFragment);
-            setEditButtonToolbar(false);
+            setEditButtonToolbar(0, messagingFragment);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {
             //start photos fragment
+            Bundle args = new Bundle();
+            args.putString(Property.PROPERTY_ID, _selectedPropertyID);
             Fragment progressGalleryFrag = new ProgressGallery();
+            progressGalleryFrag.setArguments(args);
             updateFragment(progressGalleryFrag);
-            setEditButtonToolbar(false);
+            setEditButtonToolbar(R.drawable.ic_add, progressGalleryFrag);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
         {
@@ -139,7 +141,7 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment changeOrderFragment = new ChangeOrder();
             changeOrderFragment.setArguments(args);
             updateFragment(changeOrderFragment);
-            setEditButtonToolbar(false);
+            setEditButtonToolbar(0, changeOrderFragment);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.PropertyDetails))
         {
@@ -149,15 +151,21 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment displayDetailsFragment = new DisplayPropertyDetails();
             displayDetailsFragment.setArguments(args);
             updateFragment(displayDetailsFragment);
-            setEditButtonToolbar(true);
+            setEditButtonToolbar(R.drawable.ic_edit, displayDetailsFragment);
         }
     }
 
-    private void setEditButtonToolbar(boolean hasEditButton)
+    private void setEditButtonToolbar(int hasEditButton, Fragment fragment)
     {
         ToolbarEditButton editToolbar = new ToolbarEditButton(hasEditButton);
-        editToolbar.setInterface(this);
-
+        if(_utilityType.equals(propertyUtilityFragmentType.Photos))
+        {
+            editToolbar.setInterface((IToolbarEditButton)fragment);
+        }
+        else
+        {
+            editToolbar.setInterface(this);
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_toolbar, editToolbar);

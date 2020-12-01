@@ -4,12 +4,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
@@ -22,15 +24,15 @@ public class ToolbarEditButton extends Fragment
     ImageButton mEditButton;
     IToolbarEditButton buttonInterface;
     boolean _hasEditButton;
+    int _buttonType;
 
     public ToolbarEditButton()
     {
 
     }
-
-    public ToolbarEditButton(boolean hasEditButton)
+    public ToolbarEditButton(int resourceID)
     {
-        _hasEditButton = hasEditButton;
+        _buttonType = resourceID;
     }
 
     @Override
@@ -49,13 +51,17 @@ public class ToolbarEditButton extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         setTitleBar();
-        setUpToolbarButton();
+        setUpToolbarButton(_buttonType);
     }
 
     private void setTitleBar()
     {
         mToolbar = Objects.requireNonNull(getView()).findViewById(R.id.toolbar);
         mEditButton = Objects.requireNonNull(getView()).findViewById(R.id.toolbar_edit_button);
+        if(_buttonType!=0)
+        {
+            mEditButton.setImageDrawable(ContextCompat.getDrawable(getActivity(), _buttonType));
+        }
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(mToolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
@@ -66,9 +72,9 @@ public class ToolbarEditButton extends Fragment
         this.buttonInterface = toolbarInterface;
     }
 
-    private void setUpToolbarButton()
+    private void setUpToolbarButton(int _buttonType)
     {
-        if(_hasEditButton)
+        if(_buttonType!=0)
         {
             mEditButton.setOnClickListener(new View.OnClickListener()
             {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.palodurobuilders.contractorapp.interfaces.IItemClickListener;
 import com.palodurobuilders.contractorapp.models.DummyHouse;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.models.Property;
@@ -28,7 +29,7 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
 {
     private final List<Property> _dataList;
     private final LayoutInflater _inflator;
-    private ItemClickListener _clickListener;
+    private IItemClickListener _clickListener;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -101,13 +102,8 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
         return _dataList.get(id);
     }
 
-    public void setClickListener(ItemClickListener itemClickListener)
+    public void setClickListener(IItemClickListener itemClickListener)
     {
         _clickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener
-    {
-        void onItemClick(View view, int position);
     }
 }

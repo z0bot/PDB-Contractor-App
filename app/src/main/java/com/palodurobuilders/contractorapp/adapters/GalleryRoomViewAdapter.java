@@ -11,21 +11,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.palodurobuilders.contractorapp.R;
-import com.palodurobuilders.contractorapp.models.GalleryImage;
-import com.palodurobuilders.contractorapp.models.GalleryRoom;
+import com.palodurobuilders.contractorapp.interfaces.IHandleChildRecyclerClick;
+import com.palodurobuilders.contractorapp.models.Image;
+import com.palodurobuilders.contractorapp.models.Room;
 
 import java.util.List;
 
-public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomViewAdapter.GalleryRoomViewHolder>
+public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomViewAdapter.GalleryRoomViewHolder> implements IHandleChildRecyclerClick
 {
     // used to share the views between the child and parent recyclerViews
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-    private List<GalleryRoom> _RoomList;
+    private List<Room> _RoomList;
+    public IHandleChildRecyclerClick _ihandleChildRecylcerClick;
 
     // because we're loading into a fragment, need context
-    public GalleryRoomViewAdapter(Context context, List<GalleryRoom> galleryRoomList)
+    public GalleryRoomViewAdapter(Context context, List<Room> roomList)
     {
-        this._RoomList = galleryRoomList;
+        this._RoomList = roomList;
     }
 
     @NonNull
@@ -40,10 +42,10 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
     public void onBindViewHolder(GalleryRoomViewHolder viewHolder, int position)
     {
         //create instance of the GalleryRoom (parent item) class for the given position
-        GalleryRoom galleryRoom = _RoomList.get(position);
+        Room room = _RoomList.get(position);
 
         // for the created instance get the title and set it as the text for the text view
-        viewHolder.GalleryRoomTitle.setText(galleryRoom.getRoomTitle());
+        viewHolder.GalleryRoomTitle.setText(room.getName());
 
         // create a layout manager to assign a layout to the recyclerview
 
@@ -52,11 +54,12 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
 
         //Since this is nested, need to define how many child items should be pre-fetched
         //when the child recyclerView is nested inside the parent recyclerView
-        layoutManager.setInitialPrefetchItemCount(galleryRoom.getGalleryImageList().size());
+        //layoutManager.setInitialPrefetchItemCount(room.getImageList().size());
 
         //create instance of child item view adapter
         //and set its adapter, layout manager and recyclerviewPool
-        GalleryImageViewAdaptor galleryImageViewAdaptor = new GalleryImageViewAdaptor(galleryRoom.getGalleryImageList());
+        GalleryImageViewAdaptor galleryImageViewAdaptor = new GalleryImageViewAdaptor(room.getImages());
+        galleryImageViewAdaptor.setClickListener(this);
 
         viewHolder.GalleryImageRecyclerView.setLayoutManager(layoutManager);
         viewHolder.GalleryImageRecyclerView.setAdapter(galleryImageViewAdaptor);
@@ -67,6 +70,16 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
     public int getItemCount()
     {
         return _RoomList.size();
+    }
+    public void setClickListener(IHandleChildRecyclerClick ihandleChildRecylcerClick)
+    {
+        _ihandleChildRecylcerClick = ihandleChildRecylcerClick;
+    }
+
+    @Override
+    public void onClick(View view, Image image)
+    {
+        _ihandleChildRecylcerClick.onClick(view, image);
     }
 
     public static class GalleryRoomViewHolder extends RecyclerView.ViewHolder
