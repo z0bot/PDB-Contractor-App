@@ -1,7 +1,9 @@
 package com.palodurobuilders.contractorapp.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,9 +15,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,20 +39,20 @@ import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.adapters.GalleryRoomViewAdapter;
 import com.palodurobuilders.contractorapp.interfaces.IHandleChildRecyclerClick;
 import com.palodurobuilders.contractorapp.interfaces.IQueryRoomsCallback;
+import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
 import com.palodurobuilders.contractorapp.models.Image;
 import com.palodurobuilders.contractorapp.models.Room;
 import com.palodurobuilders.contractorapp.models.Property;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ProgressGallery extends Fragment implements IHandleChildRecyclerClick
+public class ProgressGallery extends Fragment implements IHandleChildRecyclerClick, IToolbarEditButton
 {
     RecyclerView _recyclerView;
     GalleryRoomViewAdapter _recyclerViewAdapter;
@@ -57,6 +61,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     FirebaseStorage _storage;
     StorageReference _storageReference;
     String _propertyID, _firebaseImageUrlString, _roomID;
+    private String _inputText = "";
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -179,12 +184,10 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                 });
     }
 
-    //will upload the selected file to firebase
     public void beginImageUpload(String roomID)
     {
         // this child reference now points to images/GUID
         final StorageReference imageReference = _storageReference.child("images/" + UUID.randomUUID().toString());
-
         imageReference.putFile(_imagePath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
                 {
@@ -197,7 +200,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                             public void onSuccess(Uri uri)
                             {
                                 _firebaseImageUrlString = uri.toString();
-                                uploadToFirebase();
+                                uploadImageToFirebase();
                             }
                         });
                     }
@@ -212,14 +215,13 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                 });
     }
 
-    private void uploadToFirebase()
+    private void uploadImageToFirebase()
     {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         Map<String, Object> image = new HashMap<>();
         image.put("propertyID", _propertyID);
         image.put("imageURL", _firebaseImageUrlString);
@@ -247,6 +249,50 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                     }
                 });
     }
+    private void uploadRoomToFirebase(String roomName)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> room = new HashMap<>();
+        room.put("name", roomName);
+        //room.put("roomID", _firebaseImageUrlString);
+
+        db.collection("Projects").document(_propertyID).collection("Rooms")
+                .add(room)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference)
+                    {
+                        String id = documentReference.getId();
+
+                        db.collection("Projects").document(_propertyID).collection("Rooms").document(id)
+                        .update("roomID", id)
+                                .addOnSuccessListener(new OnSuccessListener<Void>()
+                                {
+                                    @Override
+                                    public void onSuccess(Void aVoid)
+                                    {
+                                        progressDialog.dismiss();
+                                        reloadFragment();
+                                        Toast.makeText(getActivity(), "Room uploaded", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Error uploading room", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     private String getDate()
     {
@@ -265,6 +311,35 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         pg.setArguments(args);
         fragTrans.replace(R.id.frame_property_utility, pg);
         fragTrans.commit();
+    }
+
+    @Override
+    public void editButtonClicked()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add room");
+
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                _inputText = input.getText().toString();
+                uploadRoomToFirebase(_inputText);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     /*

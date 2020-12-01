@@ -6,15 +6,6 @@ public class Image
     private String date;
     public String getDate()
     {
-        if(date!=null)
-        {
-            int index = date.indexOf("-");
-            String year = date.substring(0,index);
-            date = date.substring(index+1);
-            index = date.indexOf("T");
-            date = date.substring(0, index);
-            date = date.replace('-','/') + '/' + year;
-        }
        return date;
     }
     public void setDate(String value)
@@ -49,5 +40,24 @@ public class Image
     public void setRoomID(String value)
     {
         roomID = value;
+    }
+
+    public String getFormattedDate()
+    {
+        String formattedDate = date;
+        if(formattedDate!=null&&!(formattedDate.isEmpty()))
+        {
+            int index = formattedDate.indexOf("-");
+            String year = formattedDate.substring(0,index);
+            formattedDate = formattedDate.substring(index+1);
+            index = formattedDate.indexOf("T");
+            formattedDate = formattedDate.substring(0, index);
+            formattedDate = formattedDate.replace('-','/') + '/' + year;
+        }
+        else
+        {
+            formattedDate = "";
+        }
+        return formattedDate;
     }
 }

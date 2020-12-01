@@ -2,7 +2,6 @@ package com.palodurobuilders.contractorapp.pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,18 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.palodurobuilders.contractorapp.R;
+import com.palodurobuilders.contractorapp.fragments.ChangeOrder;
 import com.palodurobuilders.contractorapp.fragments.DisplayPropertyDetails;
 import com.palodurobuilders.contractorapp.fragments.Messaging;
 import com.palodurobuilders.contractorapp.fragments.ToolbarEditButton;
 import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.fragments.ProgressGallery;
-
-import java.util.Objects;
 
 public class PropertyUtilities extends AppCompatActivity implements IToolbarEditButton
 {
@@ -46,8 +43,6 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
         Files,
         PropertyDetails
     }
-
-    Toolbar mToolbar;
 
     BottomNavigationView mBottomNav;
 
@@ -69,7 +64,6 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
         mBottomNav.setSelectedItemId(R.id.property_info);
 
         setStatusBarColor();
-        setEditButtonToolbar(true);
         setFragment();
 
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -118,14 +112,6 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
         return true;
     }
 
-    private void setTitleBar()
-    {
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
     private void setFragment()
     {
         if(_utilityType.equals(propertyUtilityFragmentType.Messaging))
@@ -135,7 +121,7 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment messagingFragment = new Messaging();
             messagingFragment.setArguments(args);
             updateFragment(messagingFragment);
-            setEditButtonToolbar(false);
+            setEditButtonToolbar(0, messagingFragment);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {
@@ -145,11 +131,17 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment progressGalleryFrag = new ProgressGallery();
             progressGalleryFrag.setArguments(args);
             updateFragment(progressGalleryFrag);
-            setEditButtonToolbar(false);
+            setEditButtonToolbar(R.drawable.ic_add, progressGalleryFrag);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
         {
             //start files fragment
+            Bundle args = new Bundle();
+            args.putString(Property.PROPERTY_ID, _selectedPropertyID);
+            Fragment changeOrderFragment = new ChangeOrder();
+            changeOrderFragment.setArguments(args);
+            updateFragment(changeOrderFragment);
+            setEditButtonToolbar(0, changeOrderFragment);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.PropertyDetails))
         {
@@ -159,15 +151,21 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment displayDetailsFragment = new DisplayPropertyDetails();
             displayDetailsFragment.setArguments(args);
             updateFragment(displayDetailsFragment);
-            setEditButtonToolbar(true);
+            setEditButtonToolbar(R.drawable.ic_edit, displayDetailsFragment);
         }
     }
 
-    private void setEditButtonToolbar(boolean hasEditButton)
+    private void setEditButtonToolbar(int hasEditButton, Fragment fragment)
     {
         ToolbarEditButton editToolbar = new ToolbarEditButton(hasEditButton);
-        editToolbar.setInterface(this);
-
+        if(_utilityType.equals(propertyUtilityFragmentType.Photos))
+        {
+            editToolbar.setInterface((IToolbarEditButton)fragment);
+        }
+        else
+        {
+            editToolbar.setInterface(this);
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_toolbar, editToolbar);

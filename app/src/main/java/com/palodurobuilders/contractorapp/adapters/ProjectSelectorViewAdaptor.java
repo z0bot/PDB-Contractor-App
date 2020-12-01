@@ -27,8 +27,8 @@ import java.util.List;
 
 public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSelectorViewAdaptor.MyViewHolder>
 {
-    private List<Property> _dataList;
-    private LayoutInflater _inflator;
+    private final List<Property> _dataList;
+    private final LayoutInflater _inflator;
     private IItemClickListener _clickListener;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -106,11 +106,4 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
     {
         _clickListener = itemClickListener;
     }
-
-    /*
-    public interface ItemClickListener
-    {
-        void onItemClick(View view, int position);
-    }
-    */
 }

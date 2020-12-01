@@ -39,7 +39,7 @@ public class GalleryImageViewAdaptor extends RecyclerView.Adapter<GalleryImageVi
     public void onBindViewHolder(GalleryImageViewHolder viewHolder, int position)
     {
         Image image = _ImageList.get(position);
-        viewHolder.mImageDate.setText(image.getDate());
+        viewHolder.mImageDate.setText(image.getFormattedDate());
         //viewHolder.GalleryImage_RoomImage.setImageDrawable(ContextCompat.getDrawable(viewHolder.GalleryImage_RoomImage.getContext(), image.getRoomImage()));
         if(image.getImageURL() != null && !image.getImageURL().isEmpty())
         {
