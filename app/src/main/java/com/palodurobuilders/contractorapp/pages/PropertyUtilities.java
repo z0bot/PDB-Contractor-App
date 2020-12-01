@@ -121,7 +121,7 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment messagingFragment = new Messaging();
             messagingFragment.setArguments(args);
             updateFragment(messagingFragment);
-            setEditButtonToolbar(0, messagingFragment);
+            setEditButtonToolbar(0);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Photos))
         {
@@ -131,7 +131,7 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment progressGalleryFrag = new ProgressGallery();
             progressGalleryFrag.setArguments(args);
             updateFragment(progressGalleryFrag);
-            setEditButtonToolbar(R.drawable.ic_add, progressGalleryFrag);
+            setEditButtonToolbar(0);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.Files))
         {
@@ -141,7 +141,7 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment changeOrderFragment = new ChangeOrder();
             changeOrderFragment.setArguments(args);
             updateFragment(changeOrderFragment);
-            setEditButtonToolbar(0, changeOrderFragment);
+            setEditButtonToolbar(0);
         }
         else if(_utilityType.equals(propertyUtilityFragmentType.PropertyDetails))
         {
@@ -151,21 +151,14 @@ public class PropertyUtilities extends AppCompatActivity implements IToolbarEdit
             Fragment displayDetailsFragment = new DisplayPropertyDetails();
             displayDetailsFragment.setArguments(args);
             updateFragment(displayDetailsFragment);
-            setEditButtonToolbar(R.drawable.ic_edit, displayDetailsFragment);
+            setEditButtonToolbar(R.drawable.ic_edit);
         }
     }
 
-    private void setEditButtonToolbar(int hasEditButton, Fragment fragment)
+    private void setEditButtonToolbar(int hasEditButton)
     {
         ToolbarEditButton editToolbar = new ToolbarEditButton(hasEditButton);
-        if(_utilityType.equals(propertyUtilityFragmentType.Photos))
-        {
-            editToolbar.setInterface((IToolbarEditButton)fragment);
-        }
-        else
-        {
-            editToolbar.setInterface(this);
-        }
+        editToolbar.setInterface(this);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_toolbar, editToolbar);
