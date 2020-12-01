@@ -25,6 +25,7 @@
         android:ems="10"
         android:hint="@string/property_name"
         android:inputType="textPersonName"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -99,7 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,14 +108,14 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="81dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:fontFamily="@font/taileb"
             android:text="@string/owner"
             android:textColor="@color/colorTextGreen"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/edittext_owner"
@@ -125,7 +126,7 @@
             android:ems="10"
             android:hint="@string/enter_name"
             android:inputType="textPersonName"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -133,7 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,14 +143,14 @@
 
         <TextView
             android:id="@+id/textview_email"
-            android:layout_width="40dp"
+            android:layout_width="77dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:fontFamily="@font/taileb"
             android:text="@string/email"
             android:textColor="@color/colorTextGreen"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/edittext_email"
@@ -159,7 +160,8 @@
             android:ems="10"
             android:hint="@string/enter_email"
             android:importantForAutofill="no"
-            android:inputType="textPersonName|textEmailAddress" />
+            android:inputType="textPersonName|textEmailAddress"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -167,7 +169,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -176,14 +178,14 @@
 
         <TextView
             android:id="@+id/textview_address"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:fontFamily="@font/taileb"
             android:text="@string/address"
             android:textColor="@color/colorTextGreen"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/edittext_address"
@@ -193,7 +195,8 @@
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/enter_address"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
