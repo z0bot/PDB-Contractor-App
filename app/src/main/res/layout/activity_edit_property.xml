@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorFragmentBackground"
     tools:context=".pages.EditProperty">
 
     <include
@@ -157,8 +158,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/enter_email"
-            android:inputType="textPersonName|textEmailAddress"
-            android:importantForAutofill="no" />
+            android:importantForAutofill="no"
+            android:inputType="textPersonName|textEmailAddress" />
 
     </LinearLayout>
 
@@ -204,9 +205,9 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/create_new_property_button"
+        android:focusable="true"
         android:src="@drawable/ic_check"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:focusable="true" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
