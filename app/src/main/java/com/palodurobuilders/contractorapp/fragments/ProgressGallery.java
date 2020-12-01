@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -27,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,13 +40,20 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.adapters.GalleryRoomViewAdapter;
+import com.palodurobuilders.contractorapp.databases.ImageDatabase;
+import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
 import com.palodurobuilders.contractorapp.interfaces.IHandleChildRecyclerClick;
 import com.palodurobuilders.contractorapp.interfaces.IQueryRoomsCallback;
 import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
 import com.palodurobuilders.contractorapp.models.Image;
 import com.palodurobuilders.contractorapp.models.Room;
 import com.palodurobuilders.contractorapp.models.Property;
+import com.palodurobuilders.contractorapp.pages.DisplayImage;
+import com.palodurobuilders.contractorapp.pages.PropertyUtilities;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +62,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ProgressGallery extends Fragment implements IHandleChildRecyclerClick, IToolbarEditButton
+public class ProgressGallery extends Fragment implements IHandleChildRecyclerClick
 {
     RecyclerView _recyclerView;
     GalleryRoomViewAdapter _recyclerViewAdapter;
@@ -62,6 +72,9 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     StorageReference _storageReference;
     String _propertyID, _firebaseImageUrlString, _roomID;
     private String _inputText = "";
+    FloatingActionButton _addRoomButton;
+    Bitmap _bitmap;
+    int _imageSize;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -84,6 +97,15 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         _recyclerView = getView().findViewById(R.id.recyclerview_progress_gallery_parent);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        _addRoomButton = view.findViewById(R.id.fab_add_room);
+        _addRoomButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                addButtonClicked();
+            }
+        });
 
         _recyclerView.setLayoutManager(layoutManager);
 
@@ -118,7 +140,19 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         }
         else
         {
-            Toast.makeText(getActivity(), "You selected an image.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "You selected an image.", Toast.LENGTH_SHORT).show();
+            ImageDatabase imageDatabase = ImageDatabase.getInstance(getActivity());
+            try
+            {
+                imageDatabase.imageDao().insertImage(image);
+            }
+            catch(Exception e)
+            {
+                imageDatabase.imageDao().updateImage(image);
+            }
+            Intent intent = new Intent(getActivity(), DisplayImage.class);
+            intent.putExtra("imageURL", image.getImageURL());
+            startActivity(intent);
         }
     }
 
@@ -131,8 +165,21 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
             if(requestCode == RESULT_LOAD_IMAGE)
             {
                 _imagePath = data.getData();
+
+                //get image size
+                InputStream inputStream;
+                try
+                {
+                    inputStream = getContext().getContentResolver().openInputStream(_imagePath);
+                    _bitmap = BitmapFactory.decodeStream(inputStream);
+                }
+                catch (FileNotFoundException e)
+                {
+                    Toast.makeText(getActivity(), "Image not supported", Toast.LENGTH_SHORT).show();
+                }
+
+                _imageSize = _bitmap.getRowBytes() * _bitmap.getHeight();
                 beginImageUpload(_roomID);
-                //_mSelectedImageView.setImageURI(_imagePath);
             }
         }
     }
@@ -200,7 +247,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                             public void onSuccess(Uri uri)
                             {
                                 _firebaseImageUrlString = uri.toString();
-                                uploadImageToFirebase();
+                                uploadImageToFirebase(_imageSize);
                             }
                         });
                     }
@@ -215,7 +262,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                 });
     }
 
-    private void uploadImageToFirebase()
+    private void uploadImageToFirebase(int imageSize)
     {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Uploading...");
@@ -226,6 +273,12 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         image.put("propertyID", _propertyID);
         image.put("imageURL", _firebaseImageUrlString);
         image.put("date", getDate());
+        image.put("is360", false);
+
+        if(imageSize == 57802752)
+        {
+            image.put("is360", true);
+        }
 
         db.collection("Projects").document(_propertyID).collection("Rooms").document(_roomID).collection("Images")
                 .add(image)
@@ -313,8 +366,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         fragTrans.commit();
     }
 
-    @Override
-    public void editButtonClicked()
+    public void addButtonClicked()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add room");
@@ -341,62 +393,4 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         });
         builder.show();
     }
-
-    /*
-    private List<Room> GalleryRoomList()
-    {
-        List<Room> roomList = new ArrayList<>();
-
-        Room room0 = new Room("Living Room", GalleryImageList());
-        roomList.add(room0);
-
-        Room room1 = new Room("Foyer", GalleryImageList());
-        roomList.add(room1);
-
-        Room room2 = new Room("Garage", GalleryImageList());
-        roomList.add(room2);
-
-        Room room3 = new Room("Master Bedroom", GalleryImageList());
-        roomList.add(room3);
-
-        Room room4 = new Room("Kitchen", GalleryImageList());
-        roomList.add(room4);
-
-        Room room5 = new Room("Spare Bedroom", GalleryImageList());
-        roomList.add(room5);
-
-        Room room6 = new Room("Storage", GalleryImageList());
-        roomList.add(room6);
-
-        return roomList;
-    }
-
-    private List<Image> GalleryImageList()
-    {
-        List<Image> imageList = new ArrayList<>();
-
-        Image g1 = new Image();
-        g1.setImageURL(R.drawable.add_image);
-        g1.setImageDate(null);
-        imageList.add(g1);
-
-        Image g2 = new Image();
-        g2.setImageURL(R.drawable.house);
-        g2.setImageDate("9/14/2020");
-        imageList.add(g2);
-
-        Image g3 = new Image();
-        g3.setImageURL(R.drawable.house_placeholder_two);
-        g3.setImageDate("9/15/2020");
-        imageList.add(g3);
-
-        Image g4 = new Image();
-        g4.setImageURL(R.drawable.house_placeholder_four);
-        g4.setImageDate("9/19/2020");
-        imageList.add(g4);
-        //galleryImageList.add(new GalleryImage("", R.drawable.ic_add_image));
-
-        return imageList;
-    }
-     */
 }

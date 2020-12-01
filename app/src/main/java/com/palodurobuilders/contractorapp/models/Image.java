@@ -1,8 +1,15 @@
 package com.palodurobuilders.contractorapp.models;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.StringTokenizer;
 
+@Entity(tableName = "image")
 public class Image
 {
+    @ColumnInfo(name = "date")
     private String date;
     public String getDate()
     {
@@ -13,6 +20,8 @@ public class Image
         date=value;
     }
 
+    @PrimaryKey
+    @NonNull
     private String imageURL;
     public String getImageURL()
     {
@@ -23,6 +32,7 @@ public class Image
         imageURL=value;
     }
 
+    @ColumnInfo(name = "is360")
     public Boolean is360;
     public Boolean getIs360()
     {
@@ -32,6 +42,8 @@ public class Image
     {
         is360 = value;
     }
+
+    @ColumnInfo(name = "roomID")
     public String roomID;
     public String getRoomID()
     {

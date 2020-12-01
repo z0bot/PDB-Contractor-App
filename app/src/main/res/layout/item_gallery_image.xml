@@ -21,6 +21,7 @@
             android:id="@+id/imageview_gallery_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/an_image_contained_within_the_gallery_of_the_application"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/add_image" />
