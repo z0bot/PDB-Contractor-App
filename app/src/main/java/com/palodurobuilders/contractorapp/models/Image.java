@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.StringTokenizer;
 
 @Entity(tableName = "image")
-public class Image
+public class Image implements Comparable<Image>
 {
     @ColumnInfo(name = "date")
     private String date;
@@ -71,5 +71,15 @@ public class Image
             formattedDate = "";
         }
         return formattedDate;
+    }
+
+    @Override
+    public int compareTo(Image o)
+    {
+        if(getFormattedDate() == null || o.getFormattedDate() == null)
+        {
+            return 0;
+        }
+        return getFormattedDate().compareTo(o.getFormattedDate());
     }
 }

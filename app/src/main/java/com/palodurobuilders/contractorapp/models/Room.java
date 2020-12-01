@@ -1,9 +1,10 @@
 package com.palodurobuilders.contractorapp.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Room
+public class Room implements Comparable<Room>
 {
     private String roomID;
     public String getRoomID()
@@ -32,7 +33,7 @@ public class Room
         addImage.setRoomID(getRoomID());
         if(Images!=null)
         {
-            Images.add(addImage);
+            Images.add(0, addImage);
         }
         else
         {
@@ -53,18 +54,22 @@ public class Room
             Images = new ArrayList<>();
         }
         Images.add(image);
+        Collections.sort(Images);
+        Collections.reverse(Images);
     }
 
-    /*
-    public Room(String roomName, List<Image> imageList)
-    {
-        name = roomName;
-        Images = imageList;
-    }
-     */
     public Room()
     {
 
     }
 
+    @Override
+    public int compareTo(Room o)
+    {
+        if(getName() == null || o.getName() == null)
+        {
+            return 0;
+        }
+        return getName().compareTo(o.getName());
+    }
 }

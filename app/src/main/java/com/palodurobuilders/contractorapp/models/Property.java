@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import com.palodurobuilders.contractorapp.utilities.PropertyCodeGenerator;
 
 @Entity(tableName = "property")
-public class Property
+public class Property implements Comparable<Property>
 {
     public static final String PROPERTY_ID = "property_id";
 
@@ -116,5 +116,15 @@ public class Property
     public String getDisplayablePropertyID()
     {
         return "Property ID: " + propertyID;
+    }
+
+    @Override
+    public int compareTo(Property o)
+    {
+        if(getName() == null || o.getName() == null)
+        {
+            return 0;
+        }
+        return getName().compareTo(o.getName());
     }
 }

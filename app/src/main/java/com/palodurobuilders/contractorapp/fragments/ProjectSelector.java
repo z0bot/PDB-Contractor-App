@@ -33,6 +33,7 @@ import com.palodurobuilders.contractorapp.pages.PropertyUtilities;
 import com.palodurobuilders.contractorapp.utilities.TestPropertyUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectSelector extends Fragment implements IItemClickListener
@@ -66,6 +67,7 @@ public class ProjectSelector extends Fragment implements IItemClickListener
             @Override
             public void onCallback(List<Property> projectList)
             {
+                Collections.sort(projectList);
                 setPropertyRecyclerAdapter(projectList);
             }
         });

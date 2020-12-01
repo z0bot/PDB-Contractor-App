@@ -9,6 +9,7 @@
         android:id="@+id/textView_room_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/taileb"
         android:text="@string/foyer"
         android:textSize="25sp"
