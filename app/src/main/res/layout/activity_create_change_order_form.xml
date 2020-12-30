@@ -21,7 +21,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
-      android:layout_marginTop="16dp"
+      android:layout_marginTop="32dp"
       android:layout_marginEnd="16dp"
       android:orientation="horizontal"
       app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/taileb"
         android:text="@string/title"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/edittext_change_order_title"
@@ -42,13 +42,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_weight="1"
+        android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/taileb"
         android:hint="@string/enter_change_order_title"
         android:inputType="textPersonName"
         android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="@color/colorPlaceholderTextGreen"
-        android:autofillHints="" />
+        android:textColorHint="@color/colorPlaceholderTextGreen" />
 
   </LinearLayout>
 
@@ -57,6 +57,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
+      android:layout_marginTop="24dp"
       android:layout_marginEnd="16dp"
       android:orientation="horizontal"
       app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +70,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/taileb"
         android:text="@string/summary"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/edittext_change_order_summary"
@@ -90,6 +91,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
+      android:layout_marginTop="24dp"
       android:layout_marginEnd="16dp"
       android:orientation="horizontal"
       app:layout_constraintEnd_toEndOf="parent"
@@ -103,19 +105,19 @@
         android:layout_weight="1"
         android:fontFamily="@font/taileb"
         android:text="@string/previous_price"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/edittext_change_order_previous_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/taileb"
         android:hint="@string/enter_previous_service_cost"
         android:inputType="numberDecimal"
-        android:textColorHint="@color/colorPlaceholderTextGreen"
-        android:autofillHints="" />
+        android:textColorHint="@color/colorPlaceholderTextGreen" />
 
   </LinearLayout>
 
@@ -123,6 +125,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
+      android:layout_marginTop="24dp"
       android:layout_marginEnd="16dp"
       android:orientation="horizontal"
       app:layout_constraintEnd_toEndOf="parent"
@@ -136,19 +139,19 @@
         android:layout_weight="1"
         android:fontFamily="@font/taileb"
         android:text="@string/new_price"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/edittext_change_order_new_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/taileb"
         android:hint="@string/enter_new_service_cost"
         android:inputType="numberDecimal"
-        android:textColorHint="@color/colorPlaceholderTextGreen"
-        android:autofillHints="" />
+        android:textColorHint="@color/colorPlaceholderTextGreen" />
   </LinearLayout>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
