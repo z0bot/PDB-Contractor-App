@@ -1,7 +1,6 @@
 package com.palodurobuilders.contractorapp.interfaces;
 
 import com.palodurobuilders.contractorapp.models.ChangeOrderForm;
-import com.palodurobuilders.contractorapp.models.Property;
 
 import java.util.List;
 

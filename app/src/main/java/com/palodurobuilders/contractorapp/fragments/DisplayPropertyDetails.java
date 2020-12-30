@@ -34,7 +34,7 @@ public class DisplayPropertyDetails extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        _selectedPropertyID = getArguments().getString(Property.PROPERTY_ID);
+        _selectedPropertyID = Objects.requireNonNull(getArguments()).getString(Property.PROPERTY_ID);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class DisplayPropertyDetails extends Fragment
     public void onResume()
     {
         super.onResume();
-        mPropertyImage = getView().findViewById(R.id.imageview_property_image);
+        mPropertyImage = Objects.requireNonNull(getView()).findViewById(R.id.imageview_property_image);
         mPropertyName = getView().findViewById(R.id.textview_property_name);
         mOwnerName = getView().findViewById(R.id.textview_owner_name);
         mAddress = getView().findViewById(R.id.textview_address);

@@ -3,8 +3,6 @@ package com.palodurobuilders.contractorapp.pages;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.palodurobuilders.contractorapp.R;
-import com.palodurobuilders.contractorapp.fragments.ChangeOrder;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.utilities.HTMLGenerator;
 

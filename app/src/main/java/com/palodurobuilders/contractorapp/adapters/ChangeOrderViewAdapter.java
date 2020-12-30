@@ -23,9 +23,9 @@ public class ChangeOrderViewAdapter extends RecyclerView.Adapter<ChangeOrderView
 
     public class ChangeOrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        public View mView;
-        public TextView mTitleText;
-        public ImageView mChangeOrderThumbnail;
+        public final View mView;
+        public final TextView mTitleText;
+        public final ImageView mChangeOrderThumbnail;
 
         public ChangeOrderViewHolder(View view)
         {
@@ -39,7 +39,7 @@ public class ChangeOrderViewAdapter extends RecyclerView.Adapter<ChangeOrderView
         @Override
         public void onClick(View v)
         {
-            _clickListener.onItemClick(v, getAdapterPosition());
+            _clickListener.onItemClick(getAdapterPosition());
         }
     }
 
@@ -82,6 +82,6 @@ public class ChangeOrderViewAdapter extends RecyclerView.Adapter<ChangeOrderView
 
     public interface ItemClickListener
     {
-        void onItemClick(View view, int position);
+        void onItemClick(int position);
     }
 }

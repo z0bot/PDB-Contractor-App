@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
@@ -60,7 +59,7 @@ public class ToolbarEditButton extends Fragment
         mEditButton = Objects.requireNonNull(getView()).findViewById(R.id.toolbar_edit_button);
         if(_buttonType!=0)
         {
-            mEditButton.setImageDrawable(ContextCompat.getDrawable(getActivity(), _buttonType));
+            mEditButton.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), _buttonType));
         }
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(mToolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

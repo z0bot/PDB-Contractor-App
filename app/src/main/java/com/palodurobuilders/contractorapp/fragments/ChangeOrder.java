@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +28,7 @@ import com.palodurobuilders.contractorapp.pages.DisplayChangeOrderForm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChangeOrder extends Fragment implements ChangeOrderViewAdapter.ItemClickListener
 {
@@ -42,7 +41,7 @@ public class ChangeOrder extends Fragment implements ChangeOrderViewAdapter.Item
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        _selectedPropertyID = getArguments().getString(Property.PROPERTY_ID);
+        _selectedPropertyID = Objects.requireNonNull(getArguments()).getString(Property.PROPERTY_ID);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class ChangeOrder extends Fragment implements ChangeOrderViewAdapter.Item
     public void onResume()
     {
         super.onResume();
-        mAddChangeOrderFab = getView().findViewById(R.id.fab_add_change_order);
+        mAddChangeOrderFab = Objects.requireNonNull(getView()).findViewById(R.id.fab_add_change_order);
         mAddChangeOrderFab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -96,7 +95,7 @@ public class ChangeOrder extends Fragment implements ChangeOrderViewAdapter.Item
                     {
                         if(task.isSuccessful())
                         {
-                            for(QueryDocumentSnapshot document : task.getResult())
+                            for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult()))
                             {
                                 forms.add(document.toObject(ChangeOrderForm.class));
                             }
@@ -114,7 +113,7 @@ public class ChangeOrder extends Fragment implements ChangeOrderViewAdapter.Item
     }
 
     @Override
-    public void onItemClick(View view, int position)
+    public void onItemClick(int position)
     {
         ChangeOrderForm form = _recyclerViewAdapter.getForm(position);
         Intent displayForm = new Intent(getActivity(), DisplayChangeOrderForm.class);

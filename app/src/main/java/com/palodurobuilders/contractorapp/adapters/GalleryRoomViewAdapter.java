@@ -1,6 +1,5 @@
 package com.palodurobuilders.contractorapp.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,12 @@ import java.util.List;
 public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomViewAdapter.GalleryRoomViewHolder> implements IHandleChildRecyclerClick
 {
     // used to share the views between the child and parent recyclerViews
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-    private List<Room> _RoomList;
+    private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+    private final List<Room> _RoomList;
     public IHandleChildRecyclerClick _ihandleChildRecylcerClick;
 
     // because we're loading into a fragment, need context
-    public GalleryRoomViewAdapter(Context context, List<Room> roomList)
+    public GalleryRoomViewAdapter(List<Room> roomList)
     {
         this._RoomList = roomList;
     }
@@ -84,8 +83,8 @@ public class GalleryRoomViewAdapter extends RecyclerView.Adapter<GalleryRoomView
 
     public static class GalleryRoomViewHolder extends RecyclerView.ViewHolder
     {
-        private TextView GalleryRoomTitle;
-        private RecyclerView GalleryImageRecyclerView; //child view
+        private final TextView GalleryRoomTitle;
+        private final RecyclerView GalleryImageRecyclerView; //child view
 
         public GalleryRoomViewHolder(@NonNull View itemView)
         {

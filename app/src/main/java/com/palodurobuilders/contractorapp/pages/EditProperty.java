@@ -27,10 +27,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -47,11 +45,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 public class EditProperty extends AppCompatActivity
 {
-    public static String ACTIVITY_SOURCE = "source_activity";
+    public static final String ACTIVITY_SOURCE = "source_activity";
 
     ImageButton mStarButton;
     ImageButton mChooseImageButton;
@@ -146,16 +143,16 @@ public class EditProperty extends AppCompatActivity
             _firebaseImageUrl = selectedProperty.getImageURL();
             if(selectedProperty.getStarred())
             {
-                mStarButton.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(this), R.drawable.ic_star_gold));
+                mStarButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_gold));
                 _starToggle = true;
             }
             else
             {
-                mStarButton.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(this), R.drawable.ic_star_gray));
+                mStarButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_gray));
                 _starToggle = false;
             }
             mThumbnail.setVisibility(ImageView.VISIBLE);
-            Glide.with(Objects.requireNonNull(this))
+            Glide.with(this)
                     .load(selectedProperty.getImageURL())
                     .centerCrop()
                     .into(mThumbnail);
@@ -292,7 +289,7 @@ public class EditProperty extends AppCompatActivity
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             final FirebaseAuth auth = FirebaseAuth.getInstance();
 
-            db.collection("Contractors").document(auth.getCurrentUser().getUid()).get()
+            db.collection("Contractors").document(Objects.requireNonNull(auth.getCurrentUser()).getUid()).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
                     {
                         @Override
@@ -301,7 +298,7 @@ public class EditProperty extends AppCompatActivity
                             if (task.isSuccessful())
                             {
                                 DocumentSnapshot snapshot = task.getResult();
-                                List<String> projects = snapshot.toObject(ContractorProjects.class).getProjects();
+                                List<String> projects = Objects.requireNonNull(snapshot.toObject(ContractorProjects.class)).getProjects();
                                 if(projects == null)
                                 {
                                     projects = new ArrayList<>();

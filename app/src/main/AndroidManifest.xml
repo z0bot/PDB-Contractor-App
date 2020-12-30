@@ -9,11 +9,11 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pages.DisplayImage"></activity>
+        <activity android:name=".pages.DisplayImage" />
         <activity
             android:name=".pages.CreateChangeOrderForm"
             android:label="Create Change Order"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".pages.DisplayChangeOrderForm"
             android:label="Change Order Details"

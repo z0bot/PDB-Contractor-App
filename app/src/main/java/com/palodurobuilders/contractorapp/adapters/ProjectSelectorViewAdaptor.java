@@ -1,7 +1,6 @@
 package com.palodurobuilders.contractorapp.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.palodurobuilders.contractorapp.interfaces.IItemClickListener;
-import com.palodurobuilders.contractorapp.models.DummyHouse;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.models.Property;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSelectorViewAdaptor.MyViewHolder>
@@ -36,9 +28,9 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         // each data item is just a string in this case
-        public View mView;
-        public TextView mHomeName;
-        public ImageView mHomeImage;
+        public final View mView;
+        public final TextView mHomeName;
+        public final ImageView mHomeImage;
 
         public MyViewHolder(View v)
         {
@@ -52,7 +44,7 @@ public class ProjectSelectorViewAdaptor extends RecyclerView.Adapter<ProjectSele
         @Override
         public void onClick(View view)
         {
-            _clickListener.onItemClick(view, getAdapterPosition());
+            _clickListener.onItemClick(getAdapterPosition());
         }
     }
 

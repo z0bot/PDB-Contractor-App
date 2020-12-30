@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GalleryImageViewAdaptor extends RecyclerView.Adapter<GalleryImageViewAdaptor.GalleryImageViewHolder>
 {
-    private List<Image> _ImageList;
+    private final List<Image> _ImageList;
     private IHandleChildRecyclerClick _childclickListener;
 
     //Constructor
@@ -72,8 +72,8 @@ public class GalleryImageViewAdaptor extends RecyclerView.Adapter<GalleryImageVi
 
     public class GalleryImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        TextView mImageDate;
-        ImageView mImage;
+        final TextView mImageDate;
+        final ImageView mImage;
 
         GalleryImageViewHolder(View view)
         {

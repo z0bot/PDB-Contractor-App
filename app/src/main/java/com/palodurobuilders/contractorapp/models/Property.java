@@ -5,8 +5,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.palodurobuilders.contractorapp.utilities.PropertyCodeGenerator;
-
 @Entity(tableName = "property")
 public class Property implements Comparable<Property>
 {

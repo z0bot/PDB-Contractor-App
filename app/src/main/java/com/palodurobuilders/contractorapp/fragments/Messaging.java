@@ -50,15 +50,15 @@ public class Messaging extends Fragment
 {
     public static class MessageViewHolder extends RecyclerView.ViewHolder
     {
-        ImageView mIncomingMedia;
-        ImageView mOutgoingMedia;
-        TextView outgoingMessageText;
-        ConstraintLayout outgoingMessageConstraint;
-        TextView incomingMessageText;
-        ConstraintLayout incomingMessageConstraint;
-        TextView mTimeText;
-        TextView mNameText;
-        LinearLayout mNameDateLinear;
+        final ImageView mIncomingMedia;
+        final ImageView mOutgoingMedia;
+        final TextView outgoingMessageText;
+        final ConstraintLayout outgoingMessageConstraint;
+        final TextView incomingMessageText;
+        final ConstraintLayout incomingMessageConstraint;
+        final TextView mTimeText;
+        final TextView mNameText;
+        final LinearLayout mNameDateLinear;
 
         public MessageViewHolder(View view)
         {
@@ -101,7 +101,7 @@ public class Messaging extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        _selectedPropertyID = getArguments().getString(Property.PROPERTY_ID);
+        _selectedPropertyID = Objects.requireNonNull(getArguments()).getString(Property.PROPERTY_ID);
     }
 
     @Override
@@ -220,7 +220,7 @@ public class Messaging extends Fragment
         InputStream inputStream;
         try
         {
-            inputStream = getActivity().getContentResolver().openInputStream(_imagePath);
+            inputStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(_imagePath);
             _bitmap = BitmapFactory.decodeStream(inputStream);
             mPreviewMedia.setImageBitmap(_bitmap);
             mPreviewConstraint.setVisibility(ConstraintLayout.VISIBLE);
@@ -260,7 +260,7 @@ public class Messaging extends Fragment
                 {
                     message.setId(dataSnapshot.getKey());
                 }
-                return message;
+                return Objects.requireNonNull(message);
             }
         };
 
@@ -352,12 +352,6 @@ public class Messaging extends Fragment
     }
 
     @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
     public void onPause()
     {
         mFirebaseAdapter.stopListening();
@@ -371,9 +365,4 @@ public class Messaging extends Fragment
         mFirebaseAdapter.startListening();
     }
 
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-    }
 }

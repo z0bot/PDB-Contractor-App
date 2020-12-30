@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.StringTokenizer;
-
 @Entity(tableName = "image")
 public class Image implements Comparable<Image>
 {

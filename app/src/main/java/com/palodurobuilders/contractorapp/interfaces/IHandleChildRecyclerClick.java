@@ -6,5 +6,5 @@ import com.palodurobuilders.contractorapp.models.Image;
 
 public interface IHandleChildRecyclerClick
 {
-    public void onClick(View view, Image image);
+    void onClick(View view, Image image);
 }

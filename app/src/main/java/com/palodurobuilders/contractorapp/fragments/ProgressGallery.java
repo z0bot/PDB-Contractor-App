@@ -41,17 +41,13 @@ import com.google.firebase.storage.UploadTask;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.adapters.GalleryRoomViewAdapter;
 import com.palodurobuilders.contractorapp.databases.ImageDatabase;
-import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
 import com.palodurobuilders.contractorapp.interfaces.IHandleChildRecyclerClick;
 import com.palodurobuilders.contractorapp.interfaces.IQueryRoomsCallback;
-import com.palodurobuilders.contractorapp.interfaces.IToolbarEditButton;
 import com.palodurobuilders.contractorapp.models.Image;
 import com.palodurobuilders.contractorapp.models.Room;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.pages.DisplayImage;
-import com.palodurobuilders.contractorapp.pages.PropertyUtilities;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -61,6 +57,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ProgressGallery extends Fragment implements IHandleChildRecyclerClick
@@ -77,7 +74,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     Bitmap _bitmap;
     int _imageSize;
 
-    private static int RESULT_LOAD_IMAGE = 1;
+    private static final int RESULT_LOAD_IMAGE = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -95,7 +92,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        _recyclerView = getView().findViewById(R.id.recyclerview_progress_gallery_parent);
+        _recyclerView = Objects.requireNonNull(getView()).findViewById(R.id.recyclerview_progress_gallery_parent);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         _addRoomButton = view.findViewById(R.id.fab_add_room);
@@ -111,7 +108,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
         _recyclerView.setLayoutManager(layoutManager);
 
         // gets the property ID from passed in arg of page
-        _propertyID = this.getArguments().getString(Property.PROPERTY_ID);
+        _propertyID = Objects.requireNonNull(this.getArguments()).getString(Property.PROPERTY_ID);
 
         // allows us to access storage bucket
         _storage = FirebaseStorage.getInstance();
@@ -172,7 +169,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                 InputStream inputStream;
                 try
                 {
-                    inputStream = getContext().getContentResolver().openInputStream(_imagePath);
+                    inputStream = Objects.requireNonNull(getContext()).getContentResolver().openInputStream(_imagePath);
                     _bitmap = BitmapFactory.decodeStream(inputStream);
                 }
                 catch (FileNotFoundException e)
@@ -181,13 +178,13 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                 }
 
                 _imageSize = _bitmap.getRowBytes() * _bitmap.getHeight();
-                beginImageUpload(_roomID);
+                beginImageUpload();
             }
         }
     }
     private void setRecyclerViewAdapter(List<Room> roomList)
     {
-        _recyclerViewAdapter = new GalleryRoomViewAdapter(getActivity(), roomList);
+        _recyclerViewAdapter = new GalleryRoomViewAdapter(roomList);
         _recyclerViewAdapter.setClickListener(this);
         _recyclerView.setAdapter(_recyclerViewAdapter);
     }
@@ -205,7 +202,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                     {
                         if(task.isSuccessful())
                         {
-                            for(QueryDocumentSnapshot document : task.getResult())
+                            for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult()))
                             {
                                 final Room room = document.toObject(Room.class);
                                 CollectionReference imageReference = db.collection("Projects").document(_propertyID).collection("Rooms").document(room.getRoomID()).collection("Images");
@@ -217,7 +214,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                                             {
                                                 if(task.isSuccessful())
                                                 {
-                                                    for(QueryDocumentSnapshot document : task.getResult())
+                                                    for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult()))
                                                     {
                                                         room.addImage(document.toObject(Image.class));
                                                     }
@@ -233,7 +230,7 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
                 });
     }
 
-    public void beginImageUpload(String roomID)
+    public void beginImageUpload()
     {
         // this child reference now points to images/GUID
         final StorageReference imageReference = _storageReference.child("images/" + UUID.randomUUID().toString());
@@ -352,13 +349,12 @@ public class ProgressGallery extends Fragment implements IHandleChildRecyclerCli
     private String getDate()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String currentTime = sdf.format(new Date());
-        return currentTime;
+        return sdf.format(new Date());
     }
 
     private void reloadFragment()
     {
-        FragmentManager fragMan = getActivity().getSupportFragmentManager();
+        FragmentManager fragMan = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         FragmentTransaction fragTrans = fragMan.beginTransaction();
         Bundle args = new Bundle();
         args.putString(Property.PROPERTY_ID, _propertyID);

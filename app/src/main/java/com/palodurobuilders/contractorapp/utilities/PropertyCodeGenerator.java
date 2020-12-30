@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 public class PropertyCodeGenerator
 {
     static final String DIGIT_DICTIONARY = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz";
-    static SecureRandom random = new SecureRandom();
+    static final SecureRandom random = new SecureRandom();
 
 
     public static String generatePropertyCode()

@@ -33,7 +33,7 @@ public class Room implements Comparable<Room>
         addImage.setRoomID(getRoomID());
         if(Images!=null)
         {
-            if(!isAddButtonPresent())
+            if(isAddButtonPresent())
             {
                 Images.add(0, addImage);
             }
@@ -41,7 +41,7 @@ public class Room implements Comparable<Room>
         else
         {
             Images = new ArrayList<>();
-            if(!isAddButtonPresent())
+            if(isAddButtonPresent())
             {
                 Images.add(addImage);
             }
@@ -70,10 +70,10 @@ public class Room implements Comparable<Room>
         {
             if(image.getRoomID() != null)
             {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public Room()

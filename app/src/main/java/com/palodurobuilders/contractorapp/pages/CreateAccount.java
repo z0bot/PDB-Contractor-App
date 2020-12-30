@@ -21,7 +21,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.palodurobuilders.contractorapp.R;
 
@@ -109,7 +108,7 @@ public class CreateAccount extends AppCompatActivity
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(mFirstNameEntry.getText().toString()).build();
-                            user.updateProfile(profileUpdates);
+                            Objects.requireNonNull(user).updateProfile(profileUpdates);
                         } else
                         {
                             // If sign in fails, display a message to the user.

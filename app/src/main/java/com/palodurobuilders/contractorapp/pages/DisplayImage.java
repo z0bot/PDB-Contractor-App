@@ -5,12 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -34,8 +31,8 @@ public class DisplayImage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_image);
 
-        mNormalImage = (PhotoView) findViewById(R.id.photo_view);
-        mPanoImage = (VrPanoramaView) findViewById(R.id.vrPanoramaView);
+        mNormalImage = findViewById(R.id.photo_view);
+        mPanoImage = findViewById(R.id.vrPanoramaView);
 
         setImage();
     }
@@ -51,7 +48,6 @@ public class DisplayImage extends AppCompatActivity
         {
             Glide.with(this)
                     .load(_image.getImageURL())
-                    .centerCrop()
                     .into(mNormalImage);
         }
         else

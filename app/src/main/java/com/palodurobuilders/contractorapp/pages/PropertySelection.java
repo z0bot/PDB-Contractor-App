@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.palodurobuilders.contractorapp.fragments.ProjectSelector;
 import com.palodurobuilders.contractorapp.R;
 

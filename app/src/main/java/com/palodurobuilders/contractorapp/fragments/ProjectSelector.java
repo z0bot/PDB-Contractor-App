@@ -16,12 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.palodurobuilders.contractorapp.adapters.ProjectSelectorViewAdaptor;
 import com.palodurobuilders.contractorapp.R;
 import com.palodurobuilders.contractorapp.databases.PropertyDatabase;
@@ -30,11 +26,11 @@ import com.palodurobuilders.contractorapp.interfaces.IQueryContractorProjectsCal
 import com.palodurobuilders.contractorapp.models.ContractorProjects;
 import com.palodurobuilders.contractorapp.models.Property;
 import com.palodurobuilders.contractorapp.pages.PropertyUtilities;
-import com.palodurobuilders.contractorapp.utilities.TestPropertyUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ProjectSelector extends Fragment implements IItemClickListener
 {
@@ -52,7 +48,7 @@ public class ProjectSelector extends Fragment implements IItemClickListener
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        _recyclerView = getView().findViewById(R.id.recyclerview_project_selector);
+        _recyclerView = Objects.requireNonNull(getView()).findViewById(R.id.recyclerview_project_selector);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         _recyclerView.setHasFixedSize(true);
@@ -79,13 +75,13 @@ public class ProjectSelector extends Fragment implements IItemClickListener
         final List<Property> properties = new ArrayList<>();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        db.collection("Contractors").document(auth.getCurrentUser().getUid()).get()
+        db.collection("Contractors").document(Objects.requireNonNull(auth.getCurrentUser()).getUid()).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
                 {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot)
                     {
-                        List<String> propertyIDList = documentSnapshot.toObject(ContractorProjects.class).getProjects();
+                        List<String> propertyIDList = Objects.requireNonNull(documentSnapshot.toObject(ContractorProjects.class)).getProjects();
                         if(propertyIDList != null)
                         {
                             for(String id : propertyIDList)
@@ -98,7 +94,7 @@ public class ProjectSelector extends Fragment implements IItemClickListener
                                             {
                                                 if(task.isSuccessful())
                                                 {
-                                                    Property property = task.getResult().toObject(Property.class);
+                                                    Property property = Objects.requireNonNull(task.getResult()).toObject(Property.class);
                                                     if(property != null)
                                                     {
                                                         properties.add(property);
@@ -121,7 +117,7 @@ public class ProjectSelector extends Fragment implements IItemClickListener
     }
 
     @Override
-    public void onItemClick(View view, int position)
+    public void onItemClick(int position)
     {
         Property selectedProperty = _recyclerViewAdapter.getProperty(position);
         PropertyDatabase propertyDatabase = PropertyDatabase.getInstance(getActivity());
